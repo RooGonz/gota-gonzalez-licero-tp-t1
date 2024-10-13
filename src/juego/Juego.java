@@ -24,6 +24,14 @@ public class Juego extends InterfaceJuego
 		// Inicializar lo que haga falta para el juego
 		// ...
 		gnomo = new Gnomo(400, 100, 10, 15, 1);
+		this.tortugas= new Tortugas[5];
+		for (int i = 0; i < tortugas.length; i++) {
+		    tortugas[i] = new Tortugas(entorno.ancho() / 6*(i + 1), entorno.alto() - entorno.alto(), 25, 50, 1, 1);
+		}
+		this.islas= new Islas[15];
+		for (int i = 0; i < islas.length; i++) {
+			islas[i]= new Islas(entorno.ancho()/10*(i + 1), entorno.alto()/6*(i + 1), 100, 30);
+		}
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -50,6 +58,19 @@ public class Juego extends InterfaceJuego
 		if (gnomo.hayColisionIzquierda(entorno)) {
 			gnomo.cambiarMovimiento();
 		}
+		//dibujo las islas
+		for(Islas isla : islas) {
+		     isla.dibujarse(entorno);
+		 }
+		//dibujo las tortugas 
+		 for (Tortugas tortuga : tortugas) {
+		        tortuga.dibujar(entorno);
+		        tortuga.caer();
+		        
+		        if (tortuga.colisionaPorDerecha(entorno) || tortuga.colisionaPorIzquierda(entorno)) {
+		            tortuga.cambiarMovimiento();
+		        }
+		    }
 		
 	}
 	
