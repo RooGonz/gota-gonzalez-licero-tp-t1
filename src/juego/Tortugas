@@ -1,0 +1,73 @@
+package juego;
+
+import java.awt.Color;
+
+import entorno.Entorno;
+
+public class Tortugas {
+	private double x;
+	private double y;
+	private double ancho;
+	private double alto;
+	private double desplazamiento;
+	private int velocidad;
+	
+	public Tortugas(double x, double y,double ancho, double alto, double despl, int velocidad) {
+		this.x = x;
+		this.y = y;
+		this.ancho = ancho;
+		this.alto = alto;
+		this.desplazamiento=despl;
+		this.velocidad = velocidad;
+	}
+	public void dibujar(Entorno entorno) {
+		entorno.dibujarRectangulo(x, y, ancho, alto, 0, Color.GREEN);
+
+	}
+	public void caer() {
+		this.y++;
+	}
+	public void mover() {
+			this.x+=this.desplazamiento*velocidad;	
+	}
+	public void moverDerecha() {
+		this.x += this.desplazamiento*velocidad; 
+	}
+	public void moverIzquierda() {
+		this.x -= this.desplazamiento*velocidad; 
+	}
+	public void cambiarMovimiento() {
+		this.desplazamiento*=-1;
+	}
+	public boolean colisionaPorDerecha(Entorno e) {
+		return this.x + this.ancho/2 >= e.ancho();
+	}
+	public boolean colisionaPorIzquierda(Entorno e) {
+		return this.x - this.ancho/2 <= 0;
+	}
+	public double getX() {
+		return x;
+	}
+	public void setX(double x) {
+		this.x = x;
+	}
+	public double getY() {
+		return y;
+	}
+	public void setY(double y) {
+		this.y = y;
+	}
+	public double getAncho() {
+		return ancho;
+	}
+	public void setAncho(double ancho) {
+		this.ancho = ancho;
+	}
+	public double getAlto() {
+		return alto;
+	}
+	public void setAlto(double alto) {
+		this.alto = alto;
+	}
+	
+}
