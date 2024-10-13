@@ -14,6 +14,8 @@ public class Juego extends InterfaceJuego
 	// Variables y métodos propios de cada grupo
 	// ...
 	private Gnomo gnomo;
+	private Tortugas[] tortugas;
+	private Islas[] islas;
 
 
 	Juego()
