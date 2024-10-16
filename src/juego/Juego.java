@@ -25,7 +25,7 @@ public class Juego extends InterfaceJuego
 		
 		// Inicializar lo que haga falta para el juego
 		// ...
-		this.personaje = new Personaje (0, 0, 50, 125, 3);
+		this.personaje = new Personaje (400, 500, 50, 125, 3);
 		gnomo = new Gnomo(400, 100, 10, 15, 1);
 		this.tortugas= new Tortugas[5];
 		for (int i = 0; i < tortugas.length; i++) {
