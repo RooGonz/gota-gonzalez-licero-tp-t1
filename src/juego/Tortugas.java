@@ -19,7 +19,6 @@ public class Tortugas {
 		this.alto = alto;
 		this.desplazamiento=despl;
 		this.velocidad = velocidad;
-		
 	}
 	
 	public void dibujar(Entorno entorno) {
@@ -51,6 +50,23 @@ public class Tortugas {
 	
 	public boolean colisionaPorIzquierda(Entorno e) {
 		return this.x - this.ancho/2 <= 0;
+	}
+	public boolean estaColisionandoPorAbajo(Islas[] islas) {		
+		for(Islas isla : islas) {
+			if(isla==null) {
+				continue;
+			}
+			float bordeInferiorPersonaje = (float) (this.y + (this.alto / 2));
+		    float bordeSuperiorIsla = (float) (isla.getY() - (isla.getAlto() / 2));	
+			
+			if(bordeInferiorPersonaje>=bordeSuperiorIsla && bordeInferiorPersonaje<=bordeSuperiorIsla +velocidad) {
+				if(this.x+(this.ancho/2) > isla.getX()-(isla.getAncho()/2)  &&  this.x-(this.ancho/2) < isla.getX()+(isla.getAncho()/2)) {
+					this.y=(int) bordeSuperiorIsla-(this.alto/2);
+					return true;
+				}
+			}			
+		}
+		return false;
 	}
 
 	public double getX() {
