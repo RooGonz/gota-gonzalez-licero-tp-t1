@@ -31,10 +31,7 @@ public class Juego extends InterfaceJuego
 		for (int i = 0; i < tortugas.length; i++) {
 		    tortugas[i] = new Tortugas(entorno.ancho() / 6*(i + 1), entorno.alto() - entorno.alto(), 25, 50, 1, 1);
 		}
-		this.islas= new Islas[15];
-		for (int i = 0; i < islas.length; i++) {
-			islas[i]= new Islas(entorno.ancho()/10*(i + 1), entorno.alto()/6*(i + 1), 100, 30);
-		}
+		islas=crearIslas(entorno);
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -63,17 +60,26 @@ public class Juego extends InterfaceJuego
 		}
 		//dibujo las islas
 		for(Islas isla : islas) {
-		     isla.dibujarse(entorno);
+		   if(islas!=null) {
+				islas.dibujar(entorno);				
+			}
 		 }
 		//dibujo las tortugas 
 		 for (Tortugas tortuga : tortugas) {
+			if(tortuga!=null){
 		        tortuga.dibujar(entorno);
-		        tortuga.caer();
-		        
+		        tortuga.caer();			
+		
+		//colision tortugas - entorno
 		        if (tortuga.colisionaPorDerecha(entorno) || tortuga.colisionaPorIzquierda(entorno)) {
 		            tortuga.cambiarMovimiento();
 		        }
+		//colision tortugas - islas
+				if(tortuga.estaColisionandoPorAbajo(islas){
+					tortuga.moverDerecha();
+				}
 		    }
+		 }
 		//dibujo del personaje
 		 personaje.dibujarse(entorno);
 		 
@@ -90,7 +96,22 @@ public class Juego extends InterfaceJuego
 			personaje.moverAbajo();
 		
 	}
-	
+	public static Islas[] crearIslas(Entorno e) {
+		int pisos=(e.alto()/100)-1;
+		Islas[] islas=new Islas[pisos*(pisos+1)/2];
+		int y=0;
+		int x=0;
+		int indice=0;
+		for(int i=1 ;i<=pisos; i++) {
+			y=y+100;
+			int expansion=-50*i;
+			for(int j=1 ; j<=i; j++) {
+				x=(e.ancho()-expansion)/(i+1)*j+expansion/2;
+				islas[indice]= new Islas(x,y,145,30);
+				indice++;
+			}
+		}
+		return islas;}
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args)
