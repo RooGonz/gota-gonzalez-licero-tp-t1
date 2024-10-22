@@ -11,7 +11,7 @@ public class Juego extends InterfaceJuego {
 
 	// Variables y métodos propios de cada grupo
 	// ...
-	private Gnomo gnomo;
+	private Gnomo[] gnomos;
 	private Tortugas[] tortugas;
 	private Islas[] islas;
 
@@ -22,14 +22,20 @@ public class Juego extends InterfaceJuego {
 		
 		// Inicializar lo que haga falta para el juego
 		// ...
-		gnomo = new Gnomo(entorno.ancho()/2, entorno.alto()/6, 10, 15, 1);
+		gnomos = new Gnomo[4];
+		for (int i = 0; i < gnomos.length; i++) {
+			if (gnomos[i] == null){
+				gnomos[i] = new Gnomo(entorno.ancho()/2+i, entorno.alto()/6-26, 15, 20, 1, 1);
+			}
+			
+		}
 
 		this.tortugas= new Tortugas[5];
 		for (int i = 0; i < tortugas.length; i++) {
 		    tortugas[i] = new Tortugas(entorno.ancho() / 6*(i + 1), entorno.alto() - entorno.alto(), 25, 50, 1, 1);
 		}
 
-		this.islas= new Islas[15];
+		islas = crearIslas(entorno);
 		
 
 		// Inicia el juego!
@@ -45,34 +51,49 @@ public class Juego extends InterfaceJuego {
 	public void tick() {
 		// Procesamiento de un instante de tiempo
 		// ...
+		for (Gnomo gnomo : gnomos) {
+			if(gnomo!=null) {
+				gnomo.dibujar(entorno);
+				gnomo.caer(entorno);
+				//gnomo.mover();
+				//Thread.sleep(5000);
+			}
+				
+			if (gnomo.colisionIsla(islas)) {
+				gnomo.mover();
+			}
 
-		gnomo.dibujar(entorno);
-		gnomo.mover();
-		//gnomo.caer(entorno);
-		//if (!gnomo.colisionIsla(islas)) {
-		//	gnomo.caer(entorno);
-		//}
-
-		if (gnomo.hayColisionDerecha(entorno)) {
-			gnomo.cambiarMovimiento();
+			if (gnomo.hayColisionDerecha(entorno) || gnomo.hayColisionIzquierda(entorno)) {
+				gnomo.cambiarMovimiento();
+			}
+			
 		}
-		if (gnomo.hayColisionIzquierda(entorno)) {
-			gnomo.cambiarMovimiento();
-		}
+		
 		// dibujo las islas
 
 		for (Islas isla : islas) {
-			isla.dibujar(entorno);
+			if(isla!=null) {
+				isla.dibujar(entorno);				
+			}
 		}
 		// dibujo las tortugas
 		for (Tortugas tortuga : tortugas) {
-			tortuga.dibujar(entorno);
-			tortuga.caer();
+			if(tortuga!=null){
+				tortuga.dibujar(entorno);
+				tortuga.caer();
+				
+			}
 
 			if (tortuga.colisionaPorDerecha(entorno) || tortuga.colisionaPorIzquierda(entorno)) {
 				tortuga.cambiarMovimiento();
 			}
+
+			//colision tortugas - islas
+			if(tortuga.estaColisionandoPorAbajo(islas)){
+				tortuga.moverDerecha();
+			}
 		}
+			
 
 	}
 
@@ -80,4 +101,21 @@ public class Juego extends InterfaceJuego {
 	public static void main(String[] args) {
 		Juego juego = new Juego();
 	}
+
+	public static Islas[] crearIslas(Entorno e) {
+		int pisos=(e.alto()/100)-1;
+		Islas[] islas=new Islas[pisos*(pisos+1)/2];
+		int y=0;
+		int x=0;
+		int indice=0;
+		for(int i=1 ;i<=pisos; i++) {
+			y=y+100;
+			int expansion=-50*i;
+			for(int j=1 ; j<=i; j++) {
+				x=(e.ancho()-expansion)/(i+1)*j+expansion/2;
+				islas[indice]= new Islas(x,y,145,30);
+				indice++;
+			}
+		}
+		return islas;}
 }

@@ -1,6 +1,7 @@
 package juego;
 import java.awt.Color;
 import entorno.Entorno;
+import java.util.Random;
 
 public class Gnomo {
     private double x;
@@ -10,13 +11,16 @@ public class Gnomo {
 
     private int movimientoHorizontal ;
     private int velocidad;
+    private double desplazamiento;
+    Random random = new Random();
 
-    public Gnomo(double x, double y, double ancho, double alto, int vel){
+    public Gnomo(double x, double y, double ancho, double alto, double despl, int vel){
         this.x = x;
         this.y = y;
         this.ancho = ancho;
         this.alto = alto;
         this.velocidad = vel;
+        this.desplazamiento = despl;
         this.movimientoHorizontal = 1;
 
     }
@@ -26,7 +30,15 @@ public class Gnomo {
     }
 
     public void mover(){
-        this.x += movimientoHorizontal * velocidad;
+        
+        int direccion = random.nextInt(10); //cero izquiera, 1 derecha
+        if (direccion < 5){
+            this.x -= 10;
+        }
+        else{
+            this.x += 10;
+        }
+        //this.x += movimientoHorizontal * velocidad;
     }
 
     public boolean hayColisionDerecha(Entorno e){
@@ -46,12 +58,21 @@ public class Gnomo {
     }
 
     public boolean colisionIsla (Islas[] is){
-        for (Islas i: is){
-            if (this.y + this.alto <= i.getY() - i.getAlto()){
-                        return true;
-            }
-        }
-        return false;
+        for(Islas isla : is) {
+			if(isla==null) {
+				continue;
+			}
+			float bordeInferiorPersonaje = (float) (this.y + (this.alto / 2));
+		    float bordeSuperiorIsla = (float) (isla.getY() - (isla.getAlto() / 2));	
+			
+			if(bordeInferiorPersonaje>=bordeSuperiorIsla && bordeInferiorPersonaje<=bordeSuperiorIsla +velocidad) {
+				if(this.x+(this.ancho/2) > isla.getX()-(isla.getAncho()/2)  &&  this.x-(this.ancho/2) < isla.getX()+(isla.getAncho()/2)) {
+					this.y=(int) bordeSuperiorIsla-(this.alto/2);
+					return true;
+				}
+			}			
+		}
+		return false;
     }
 
 
