@@ -1,8 +1,5 @@
 package juego;
-//import entorno.Entorno;
-
 import java.awt.Color;
-
 import entorno.Entorno;
 
 public class Gnomo {
@@ -32,17 +29,9 @@ public class Gnomo {
         this.x += movimientoHorizontal * velocidad;
     }
 
-    //public void moverDerecha(){
-    //    this.x += this.velocidad;
-    //}
-
     public boolean hayColisionDerecha(Entorno e){
         return this.x + this.ancho >= e.ancho();
     }
-
-    //public void moverIzquierda(){
-    //    this.x -= this.velocidad;
-    //}
 
     public boolean hayColisionIzquierda(Entorno e){
         return this.x - this.ancho/2 <= 0;
@@ -54,6 +43,15 @@ public class Gnomo {
 
     public void caer(Entorno e){
         this.y += this.velocidad;
+    }
+
+    public boolean colisionIsla (Islas[] is){
+        for (Islas i: is){
+            if (this.y + this.alto <= i.getY() - i.getAlto()){
+                        return true;
+            }
+        }
+        return false;
     }
 
 
