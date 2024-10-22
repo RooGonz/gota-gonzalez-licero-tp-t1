@@ -30,23 +30,7 @@ public class Juego extends InterfaceJuego {
 		}
 
 		this.islas= new Islas[15];
-		for (int i = 0; i < islas.length; i++) {
-			islas[i]= new Islas(entorno.ancho()/16*(i * 1), entorno.alto()/6*(i + 1), 100, 30);
-			if (i < 1) {
-				islas[i] = new Islas(entorno.ancho()/2,100,100,20);}
-			else {
-				if(i < 3) {	
-					islas[i] = new Islas(entorno.ancho()/16*(i * 5),200,100,20);
-				}
-			else {
-					if (i < 6) {	
-						islas[i] = new Islas(entorno.ancho()/20*(i*3),300,100,30);
-					}
-				}
-			}
-	
-			
-		}
+		
 
 		// Inicia el juego!
 		this.entorno.iniciar();
