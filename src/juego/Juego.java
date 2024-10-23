@@ -11,6 +11,7 @@ public class Juego extends InterfaceJuego {
 
 	// Variables y métodos propios de cada grupo
 	// ...
+	private CasaDeLosGnomos casa;
 	private Gnomo[] gnomos;
 	private Tortugas[] tortugas;
 	private Islas[] islas;
@@ -22,6 +23,8 @@ public class Juego extends InterfaceJuego {
 		
 		// Inicializar lo que haga falta para el juego
 		// ...
+		this.casa = new CasaDeLosGnomos(entorno.ancho()/2, entorno.alto()/6-26, 60, 75);
+
 		gnomos = new Gnomo[4];
 		for (int i = 0; i < gnomos.length; i++) {
 			if (gnomos[i] == null){
@@ -51,18 +54,25 @@ public class Juego extends InterfaceJuego {
 	public void tick() {
 		// Procesamiento de un instante de tiempo
 		// ...
+		casa.dibujar(entorno);
+
 		for (Gnomo gnomo : gnomos) {
 			if(gnomo!=null) {
 				gnomo.dibujar(entorno);
 				gnomo.caer(entorno);
-				//gnomo.mover();
-				//Thread.sleep(5000);
-			}
 				
-			if (gnomo.colisionIsla(islas)) {
-				gnomo.mover();
 			}
 
+			// Verificar colisión con la isla y cambiar de dirección una vez
+			if (gnomo.colisionIsla(islas)) {
+				gnomo.cambiarDireccionAleatoria();
+				gnomo.mover(); 
+			}
+	
+			// Mover el gnomo en la dirección actual
+			//gnomo.mover();
+
+			//Verifica los laterales del entorno y cambia de direccion
 			if (gnomo.hayColisionDerecha(entorno) || gnomo.hayColisionIzquierda(entorno)) {
 				gnomo.cambiarMovimiento();
 			}

@@ -30,13 +30,17 @@ public class Gnomo {
     }
 
     public void mover(){
-        
-        int direccion = random.nextInt(10); //cero izquiera, 1 derecha
-        if (direccion < 5){
-            this.x -= 10;
+        // Mueve el gnomo en la dirección actual
+        this.x ++;
+    }
+
+    public void cambiarDireccionAleatoria(){
+        int direccion = random.nextInt(2); //cero izquiera, 1 derecha
+        if (direccion == 0){
+            this.x -= 1;
         }
         else{
-            this.x += 10;
+            this.x += 1;
         }
         //this.x += movimientoHorizontal * velocidad;
     }
@@ -54,7 +58,8 @@ public class Gnomo {
     }
 
     public void caer(Entorno e){
-        this.y += this.velocidad;
+        //this.y += this.velocidad;
+        this.y ++;
     }
 
     public boolean colisionIsla (Islas[] is){
