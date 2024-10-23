@@ -15,6 +15,8 @@ public class Juego extends InterfaceJuego {
 	private Gnomo[] gnomos;
 	private Tortugas[] tortugas;
 	private Islas[] islas;
+	private Personaje personaje;
+
 
 	Juego()
 	{
@@ -23,6 +25,9 @@ public class Juego extends InterfaceJuego {
 		
 		// Inicializar lo que haga falta para el juego
 		// ...
+		
+		this.personaje = new Personaje (10, 10, 50, 125, 3);
+
 		this.casa = new CasaDeLosGnomos(entorno.ancho()/2, entorno.alto()/6-26, 60, 75);
 
 		gnomos = new Gnomo[4];
@@ -103,7 +108,22 @@ public class Juego extends InterfaceJuego {
 				tortuga.moverDerecha();
 			}
 		}
-			
+		//dibujo del personaje
+		 personaje.dibujarse(entorno);
+		 
+		//Colisiones personaje - entorno
+			if(entorno.estaPresionada(entorno.TECLA_DERECHA) && !personaje.colisionaPorDerecha(entorno) && !personaje.estaColisionandoPorDerecha(islas))
+				personaje.moverDerecha();
+				
+			if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && !personaje.colisionaPorIzquierda(entorno) && !personaje.estaColisionandoPorIzquierda(islas))
+				personaje.moverIzquierda();
+				
+			if(entorno.estaPresionada(entorno.TECLA_ARRIBA) && !personaje.colisionaPorArriba(entorno) && !personaje.estaColisionandoPorArriba(islas))
+				personaje.salto();
+
+			if (!personaje.estaColisionandoPorAbajo(islas)) {
+				personaje.moverAbajo();
+			}	
 
 	}
 
