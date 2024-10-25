@@ -38,9 +38,9 @@ public class Juego extends InterfaceJuego {
 			
 		}
 
-		this.tortugas= new Tortugas[5];
+		this.tortugas= new Tortugas[4];
 		for (int i = 0; i < tortugas.length; i++) {
-		    tortugas[i] = new Tortugas(entorno.ancho() / 6*(i + 1), entorno.alto() - entorno.alto(), 25, 50, 1, 1);
+		    tortugas[i] = new Tortugas(entorno.ancho() / 5*(i + 1), entorno.alto() - entorno.alto(), 25, 50, 1, 1);
 		}
 
 		islas = crearIslas(entorno);
@@ -92,22 +92,27 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 		// dibujo las tortugas
-		for (Tortugas tortuga : tortugas) {
-			if(tortuga!=null){
-				tortuga.dibujar(entorno);
-				tortuga.caer();
+		 for (Tortugas tortuga : tortugas) {
+					if(tortuga!=null){
+				        tortuga.dibujar(entorno);
+				        tortuga.caer();			
 				
-			}
+				//colision tortugas - entorno
+				        if (tortuga.colisionaPorDerecha(entorno) || tortuga.colisionaPorIzquierda(entorno)) {
+				            tortuga.cambiarMovimiento();
+				        }
+				        //colision tortugas - islas
+				        if(tortuga.estaColisionandoPorAbajo(islas)) {
+				        	tortuga.moverIzquierda();
 
-			if (tortuga.colisionaPorDerecha(entorno) || tortuga.colisionaPorIzquierda(entorno)) {
-				tortuga.cambiarMovimiento();
-			}
+				        	//movimiento tortugas sobre islas
+				        	if(!tortuga.estaenBorde(islas)) {						
+				        		tortuga.cambiarMovimiento();
+				        	}	
+				        }
 
-			//colision tortugas - islas
-			if(tortuga.estaColisionandoPorAbajo(islas)){
-				tortuga.moverDerecha();
-			}
-		}
+					}
+				 }
 		//dibujo del personaje
 		 personaje.dibujarse(entorno);
 		 
@@ -143,7 +148,7 @@ public class Juego extends InterfaceJuego {
 			int expansion=-50*i;
 			for(int j=1 ; j<=i; j++) {
 				x=(e.ancho()-expansion)/(i+1)*j+expansion/2;
-				islas[indice]= new Islas(x,y,145,30);
+				islas[indice]= new Islas(x,y,e.ancho()/8,30);
 				indice++;
 			}
 		}
