@@ -16,6 +16,13 @@ public class Juego extends InterfaceJuego {
 	private Tortugas[] tortugas;
 	private Islas[] islas;
 	private Personaje personaje;
+	//variables de tiempo para los gnomos
+	private long lastGnomoTime;
+    private final int tiempoSpawneo = 3000; // 3 segundos en milisegundos
+	//contadores en pantalla
+	private int contadorBordeInferior;
+    private int contadorColisionTortugas;
+
 
 
 	Juego()
@@ -30,21 +37,18 @@ public class Juego extends InterfaceJuego {
 
 		this.casa = new CasaDeLosGnomos(entorno.ancho()/2, entorno.alto()/6-26, 60, 75);
 
-		gnomos = new Gnomo[4];
-		for (int i = 0; i < gnomos.length; i++) {
-			if (gnomos[i] == null){
-				gnomos[i] = new Gnomo(entorno.ancho()/2+i, entorno.alto()/6-26, 15, 20, 1, 1);
-			}
-			
-		}
-
+		this.gnomos = new Gnomo[4];
+		
 		this.tortugas= new Tortugas[5];
 		for (int i = 0; i < tortugas.length; i++) {
 		    tortugas[i] = new Tortugas(entorno.ancho() / 6*(i + 1), entorno.alto() - entorno.alto(), 25, 50, 1, 1);
 		}
 
 		islas = crearIslas(entorno);
-		
+
+		this.lastGnomoTime = System.currentTimeMillis(); // Inicializa el temporizador
+		this.contadorBordeInferior = 0;
+        this.contadorColisionTortugas = 0;
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -61,31 +65,48 @@ public class Juego extends InterfaceJuego {
 		// ...
 		casa.dibujar(entorno);
 
-		for (Gnomo gnomo : gnomos) {
-			if(gnomo!=null) {
+		long tiempoDeJuego = System.currentTimeMillis();
+
+        // Crear un nuevo gnomo cada 3 segundos si hay espacio
+        if (tiempoDeJuego - lastGnomoTime >= tiempoSpawneo) {
+            agregarGnomo();
+            lastGnomoTime = tiempoDeJuego;
+        }
+
+
+		for (int i = 0; i < gnomos.length; i++) {
+            Gnomo gnomo = gnomos[i];
+			if(gnomo != null) {
 				gnomo.dibujar(entorno);
 				gnomo.caer(entorno);
 				
-			}
+				//verifica colision cambia la direccion de manera aleatoria dentro del metodo
+				if(gnomo.colisionIsla(islas)){
+					gnomo.mover();
+				}
 
-			// Verificar colisión con la isla y cambiar de dirección una vez
-			if (gnomo.colisionIsla(islas)) {
-				gnomo.cambiarDireccionAleatoria();
-				gnomo.mover(); 
+				//Verifica los laterales del entorno y cambia de direccion
+				if (gnomo.hayColisionDerecha(entorno) || gnomo.hayColisionIzquierda(entorno)) {
+					gnomo.cambiarMovimiento();
+				}
+				//verifica que el gnomo cae al vacio y lo elimina
+				if (gnomo.bordeInferiorEntorno(entorno)){
+					gnomos[i] = null;
+					contadorBordeInferior++; // Incrementar contador gnomos precipitados
+					//System.out.print("gnomo fuera ");
+				}
+				// Verificar colisión con tortugas
+                for (Tortugas tortuga : tortugas) {
+                    if (tortuga != null && gnomo.colisionConTortuga(tortuga)) {
+                        gnomos[i] = null; // Eliminar el gnomo
+                        contadorColisionTortugas++; // Incrementar contador
+                        break;
+                    }
+                }
 			}
-	
-			// Mover el gnomo en la dirección actual
-			//gnomo.mover();
-
-			//Verifica los laterales del entorno y cambia de direccion
-			if (gnomo.hayColisionDerecha(entorno) || gnomo.hayColisionIzquierda(entorno)) {
-				gnomo.cambiarMovimiento();
-			}
-			
 		}
 		
 		// dibujo las islas
-
 		for (Islas isla : islas) {
 			if(isla!=null) {
 				isla.dibujar(entorno);				
@@ -123,14 +144,28 @@ public class Juego extends InterfaceJuego {
 
 			if (!personaje.estaColisionandoPorAbajo(islas)) {
 				personaje.moverAbajo();
-			}	
-
+			}
+			
+			// Dibujar contadores en la parte superior
+			entorno.cambiarFont("Arial", 18, Color.WHITE);
+			entorno.escribirTexto("Gnomos perdidos: " + contadorBordeInferior, 20, 20);
+			entorno.escribirTexto("Gnomos eliminados x tortugas: " + contadorColisionTortugas, 20, 40);
+			//entorno.escribirTexto("TIEMPO: " + tiempoDeJuego, 300, 20);
 	}
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Juego juego = new Juego();
 	}
+
+	private void agregarGnomo() {
+        for (int i = 0; i < gnomos.length; i++) {
+            if (gnomos[i] == null) {
+                gnomos[i] = new Gnomo(entorno.ancho()/2, entorno.alto()/6-26, 15, 20, 1, 3);
+                break; // se sale para que solo agregue un gnomo por vez
+            }
+        }
+    }
 
 	public static Islas[] crearIslas(Entorno e) {
 		int pisos=(e.alto()/100)-1;

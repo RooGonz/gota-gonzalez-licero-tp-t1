@@ -18,6 +18,7 @@ public class CasaDeLosGnomos {
 
     public void dibujar(Entorno e){
         e.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.ORANGE);
+        
     }
 
     

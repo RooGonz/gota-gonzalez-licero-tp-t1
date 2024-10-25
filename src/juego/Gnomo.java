@@ -13,7 +13,10 @@ public class Gnomo {
     private int velocidad;
     private double desplazamiento;
     Random random = new Random();
+    private boolean enIsla;
+    
 
+    
     public Gnomo(double x, double y, double ancho, double alto, double despl, int vel){
         this.x = x;
         this.y = y;
@@ -22,31 +25,32 @@ public class Gnomo {
         this.velocidad = vel;
         this.desplazamiento = despl;
         this.movimientoHorizontal = 1;
+        this.enIsla = false;
 
     }
+
+    
 
     public void dibujar(Entorno e){
         e.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.MAGENTA);
     }
 
     public void mover(){
-        // Mueve el gnomo en la dirección actual
-        this.x ++;
+        this.x += this.movimientoHorizontal*velocidad;
     }
 
     public void cambiarDireccionAleatoria(){
         int direccion = random.nextInt(2); //cero izquiera, 1 derecha
         if (direccion == 0){
-            this.x -= 1;
+            this.movimientoHorizontal = -1;
         }
         else{
-            this.x += 1;
+            this.movimientoHorizontal = 1;
         }
-        //this.x += movimientoHorizontal * velocidad;
     }
 
     public boolean hayColisionDerecha(Entorno e){
-        return this.x + this.ancho >= e.ancho();
+        return this.x + this.ancho/2 >= e.ancho();
     }
 
     public boolean hayColisionIzquierda(Entorno e){
@@ -73,11 +77,45 @@ public class Gnomo {
 			if(bordeInferiorPersonaje>=bordeSuperiorIsla && bordeInferiorPersonaje<=bordeSuperiorIsla +velocidad) {
 				if(this.x+(this.ancho/2) > isla.getX()-(isla.getAncho()/2)  &&  this.x-(this.ancho/2) < isla.getX()+(isla.getAncho()/2)) {
 					this.y=(int) bordeSuperiorIsla-(this.alto/2);
+
+                    // Cambiar dirección aleatoria solo si no está ya en la isla
+                    if (!enIsla) {
+                        cambiarDireccionAleatoria();
+                        enIsla = true; // Ahora está en la isla
+                    }  
 					return true;
 				}
 			}			
 		}
+        enIsla = false; // Si no hay colisión, no está en la isla
 		return false;
+    }
+
+    public boolean bordeInferiorEntorno(Entorno e){
+        return this.y + this.alto/2 >= e.alto();
+    }
+
+    public boolean colisionConTortuga(Tortugas t){
+       
+        if (t == null){
+            return false;
+        }
+        
+        float bordeDerGnomo = (float) (this.x + this.ancho/2);
+        float bordeIzqGnomo = (float) (this.x - this.ancho/2);
+        float bordeDerTortu = (float) (t.getX() + t.getAncho()/2);
+        float bordeIzqTortu = (float) (t.getX() - t.getAncho()/2);
+
+        float bordeSuperiorGnomo = (float) (this.y - (this.alto / 2));
+        float bordeInferiorGnomo = (float) (this.y + (this.alto / 2));
+        float bordeSuperiorTortu = (float) (t.getY() - (t.getAlto() / 2));
+        float bordeInferiorTortu = (float) (t.getY() + (t.getAlto() / 2));
+
+        if ((bordeDerGnomo >= bordeIzqTortu && bordeIzqGnomo <= bordeDerTortu) && (bordeInferiorGnomo >= bordeSuperiorTortu && bordeSuperiorGnomo <= bordeInferiorTortu)){
+            System.out.println("COLISIONTORTU ...");
+            return true;
+        }
+        return false;
     }
 
 
@@ -114,6 +152,15 @@ public class Gnomo {
     public void setAncho(double ancho) {
         this.ancho = ancho;
     }
+
+    public boolean isEnIsla() {
+        return enIsla;
+    }
+
+    public void setEnIsla(boolean enIsla) {
+        this.enIsla = enIsla;
+    }
+
 
 
 
