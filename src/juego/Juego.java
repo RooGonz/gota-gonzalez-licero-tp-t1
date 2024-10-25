@@ -39,7 +39,7 @@ public class Juego extends InterfaceJuego {
 
 		this.gnomos = new Gnomo[4];
 		
-		this.tortugas= new Tortugas[5];
+		this.tortugas= new Tortugas[4];
 		for (int i = 0; i < tortugas.length; i++) {
 		    tortugas[i] = new Tortugas(entorno.ancho() / 5*(i + 1), entorno.alto() - entorno.alto(), 25, 50, 1, 1);
 		}
@@ -166,7 +166,7 @@ public class Juego extends InterfaceJuego {
 	private void agregarGnomo() {
         for (int i = 0; i < gnomos.length; i++) {
             if (gnomos[i] == null) {
-                gnomos[i] = new Gnomo(entorno.ancho()/2, entorno.alto()/6-26, 15, 20, 1, 3);
+                gnomos[i] = new Gnomo(entorno.ancho()/2, entorno.alto()/6-26, 15, 20, 1, 1);
                 break; // se sale para que solo agregue un gnomo por vez
             }
         }
@@ -183,7 +183,7 @@ public class Juego extends InterfaceJuego {
 			int expansion=-50*i;
 			for(int j=1 ; j<=i; j++) {
 				x=(e.ancho()-expansion)/(i+1)*j+expansion/2;
-				islas[indice]= new Islas(x,y,e.ancho()/8,30);
+				islas[indice]= new Islas(x,y,e.ancho()/7,30);
 				indice++;
 			}
 		}
