@@ -6,20 +6,23 @@ import entorno.Entorno;
 
 public class BolaDeFuegoPersonaje {
 	private double x;
-
 	private double y;
 	private double radio;
-	private int movimientoVertical;
-	private int movimientoHorizontal;
-	private int velocidad;
+	private double escala;
+    	private double velocidad;
+   	private double alto;
+    	private boolean activo; // Indica si el disparo está activo o no
+    	private boolean direccionDerecha;
 	
 	public BolaDeFuegoPersonaje(double x, double y, double radio, int movV, int movH, int vel) {
 		this.x = x;
 		this.y = y;
-		this.radio = radio;
-		this.movimientoHorizontal = movH;
-		this.movimientoVertical = movV;
-		this.velocidad = vel;
+		this.velocidad = 2; // Velocidad del disparo
+        	this.radio = 10;
+        	this.alto = 20;
+        	this.escala = 0;
+        	this.activo = true; // Inicialmente el disparo está activo
+        	this.direccionDerecha = direccionDerecha;;
 	}
 	
 	public void dibujar(Entorno entorno) {
@@ -32,10 +35,13 @@ public class BolaDeFuegoPersonaje {
 		
 	}
 	
-	public void moverDerecha() {
-		this.x += this.velocidad; 
-	}
-	
+	public void mover() {
+        if (direccionDerecha) {
+            this.x -= this.velocidad; // Si el personaje mira hacia la derecha, el disparo se mueve hacia la derecha
+        } else {
+            this.x += this.velocidad; // Si el personaje mira hacia la izquierda, el disparo se mueve hacia la izquierda
+        }
+    }
 	
 	
 	public double getX() {
