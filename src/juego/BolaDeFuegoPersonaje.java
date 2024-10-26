@@ -11,17 +11,17 @@ public class BolaDeFuegoPersonaje {
 	private double escala;
     	private double velocidad;
    	private double alto;
-    	private boolean activo; // Indica si el disparo está activo o no
+    	private boolean activo;
     	private boolean direccionDerecha;
 	
 	public BolaDeFuegoPersonaje(double x, double y, double radio, int movV, int movH, int vel) {
 		this.x = x;
 		this.y = y;
-		this.velocidad = 2; // Velocidad del disparo
+		this.velocidad = 2; 
         	this.radio = 10;
         	this.alto = 20;
         	this.escala = 0;
-        	this.activo = true; // Inicialmente el disparo está activo
+        	this.activo = true; 
         	this.direccionDerecha = direccionDerecha;;
 	}
 	
