@@ -151,11 +151,11 @@ public class Juego extends InterfaceJuego {
 			}
 			//dubijo de la Bola de fuego Personaje
 			if(entorno.sePresiono(entorno.TECLA_ESPACIO)) {
-				this.bolaDeFuego = new BolaDeFuegoPersonaje(personaje.getX(), personaje.getY() , 10, 10, 10, 1);
+				this.bolaDeFuego = new BolaDeFuegoPersonaje(personaje.getX(), personaje.getY(), true);
 							
 			}
 			bolaDeFuego.dibujar(entorno);
-			bolaDeFuego.moverDerecha();
+			bolaDeFuego.mover();
 			
 			// Dibujar contadores en la parte superior
 			entorno.cambiarFont("Arial", 18, Color.WHITE);
