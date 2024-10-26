@@ -12,13 +12,13 @@ public class Tortugas {
 	private double desplazamiento;
 	private int velocidad;
 	
-	public Tortugas(double x, double y,double ancho, double alto, double despl, int velocidad) {
+	public Tortugas(double x, double y,double ancho, double alto, double despl) {
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
 		this.desplazamiento=despl;
-		this.velocidad = velocidad;
+		this.velocidad = 1;
 	}
 	
 	public void dibujar(Entorno entorno) {
@@ -69,26 +69,30 @@ public class Tortugas {
 		return false;
 	}
 
-	public boolean estaenBorde(Islas[] islas) {		
+	public boolean llegaAlBorde(Islas[] islas) {		
 		for(Islas isla : islas) {
 			if(isla==null) {
 				continue;
 			}
 			float bordeInferiorPersonaje = (float) (this.y + (this.alto / 2));
-		    float bordeSuperiorIsla = (float) (isla.getY() - (isla.getAlto() / 2));	
-			
-			if(bordeInferiorPersonaje>=bordeSuperiorIsla && bordeInferiorPersonaje<=bordeSuperiorIsla ) {
-				if(this.x+(((this.ancho/2)-this.ancho)-1) > isla.getX()-((isla.getAncho()/2))  &&
-						this.x-((this.ancho/2)-this.ancho) < isla.getX()+(isla.getAncho()/2)-1) {
-					this.y=(int) bordeSuperiorIsla-(this.alto/2);
-					
+			float bordeSuperiorIsla = (float) (isla.getY() - (isla.getAlto() / 2));	
+
+			if(bordeInferiorPersonaje >= bordeSuperiorIsla 
+					&& bordeInferiorPersonaje <= bordeSuperiorIsla ) {
+				if(this.x+(((this.ancho/2)-(this.ancho-this.ancho))-1) > isla.getX()-((isla.getAncho()/2))  &&
+						this.x-((this.ancho/2)-(this.ancho-this.ancho)) < isla.getX()+(isla.getAncho()/2)-1) {
+
 					return true;
 				}
 			}			
 		}
 		return false;
 	}
-	
+
+	public boolean bordeInferiorEntorno(Entorno e){
+		return this.y + this.alto/2 >= e.alto();
+	}
+
 	public double getX() {
 		return x;
 	}
