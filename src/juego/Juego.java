@@ -33,7 +33,7 @@ public class Juego extends InterfaceJuego {
 		// Inicializar lo que haga falta para el juego
 		// ...
 		
-		this.personaje = new Personaje (10, 10, 50, 125, 3);
+		this.personaje = new Personaje (10, 10, 20, 60, 3);
 		this.casa = new CasaDeLosGnomos(entorno.ancho()/2, entorno.alto()/6-26, 60, 75);
 		this.gnomos = new Gnomo[4];
 		this.tortugas= new Tortugas[9];		
@@ -149,6 +149,13 @@ public class Juego extends InterfaceJuego {
 			if (!personaje.estaColisionandoPorAbajo(islas)) {
 				personaje.moverAbajo();
 			}
+			//dubijo de la Bola de fuego Personaje
+			if(entorno.sePresiono(entorno.TECLA_ESPACIO)) {
+				this.bolaDeFuego = new BolaDeFuegoPersonaje(personaje.getX(), personaje.getY() , 10, 10, 10, 1);
+							
+			}
+			bolaDeFuego.dibujar(entorno);
+			bolaDeFuego.moverDerecha();
 			
 			// Dibujar contadores en la parte superior
 			entorno.cambiarFont("Arial", 18, Color.WHITE);
