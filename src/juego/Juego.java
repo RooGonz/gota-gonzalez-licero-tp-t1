@@ -33,7 +33,7 @@ public class Juego extends InterfaceJuego {
 		// Inicializar lo que haga falta para el juego
 		// ...
 		
-		this.personaje = new Personaje (10, 10, 20, 60, 3);
+		this.personaje = new Personaje (entorno.ancho()- (entorno.ancho()/25), entorno.alto()/10, 20, 60, 3);
 		this.casa = new CasaDeLosGnomos(entorno.ancho()/2, entorno.alto()/6-26, 60, 75);
 		this.gnomos = new Gnomo[4];
 		this.tortugas= new Tortugas[9];		
