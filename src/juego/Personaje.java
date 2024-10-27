@@ -38,9 +38,9 @@ public class Personaje {
 		this.x -= this.desplazamiento; 
 	}
 	
-	public void salto() {
+	public void saltar() {
 		int desplazo = 0;
-		while (desplazo <= 3) {
+		while (desplazo < 40) {
 			desplazo ++;
 			this.y -= this.desplazamiento;	
 		}
