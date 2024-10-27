@@ -143,8 +143,8 @@ public class Juego extends InterfaceJuego {
 			if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && !personaje.colisionaPorIzquierda(entorno) && !personaje.estaColisionandoPorIzquierda(islas))
 				personaje.moverIzquierda();
 				
-			if(entorno.estaPresionada(entorno.TECLA_ARRIBA) && !personaje.colisionaPorArriba(entorno) && !personaje.estaColisionandoPorArriba(islas))
-				personaje.salto();
+			if(entorno.estaPresionada(entorno.TECLA_ARRIBA) && !personaje.colisionaPorArriba(entorno) && personaje.estaColisionandoPorAbajo(islas))
+				personaje.saltar();
 
 			if (!personaje.estaColisionandoPorAbajo(islas)) {
 				personaje.moverAbajo();
