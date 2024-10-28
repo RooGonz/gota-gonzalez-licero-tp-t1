@@ -101,7 +101,7 @@ public class Tortugas {
 	public boolean bordeInferiorEntorno(Entorno e){
 		return this.y + this.alto/2 >= e.alto();
 	}
-	public boolean colisionConTortuga(BolaDeFuegoPersonaje b){
+	public boolean colisionBolaDeFuego(BolaDeFuegoPersonaje b){
 	       
         if (b == null){
             return false;
