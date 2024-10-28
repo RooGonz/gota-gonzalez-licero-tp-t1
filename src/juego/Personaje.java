@@ -20,7 +20,9 @@ public class Personaje {
 		this.ancho = ancho;
 		this.alto = alto;
 		this.desplazamiento = desplazamiento;
+
 		this.direccionDer = direccionDer;
+
 
 	}
 	
@@ -37,15 +39,17 @@ public class Personaje {
 	public void moverDerecha() {
 	this.direccionDer = true;
 	this.x += this.desplazamiento; 
+
 	}
 	public void moverIzquierda() {
 		this.direccionDer = false;
 		this.x -= this.desplazamiento; 
+		
 	}
 	
 	public void saltar() {
 		int desplazo = 0;
-		while (desplazo < 50) {
+		while (desplazo < 10) {
 			desplazo ++;
 			this.y -= this.desplazamiento;	
 		}

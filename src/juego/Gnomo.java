@@ -131,6 +131,28 @@ public class Gnomo {
         }
         return false;
     }
+    public boolean colisionConPersonaje(Personaje pep){
+        
+        if (pep == null){
+            return false;
+        }
+        
+        float bordeDerGnomo = (float) (this.x + this.ancho/2);
+        float bordeIzqGnomo = (float) (this.x - this.ancho/2);
+        float bordeDerPep = (float) (pep.getX() + pep.getAncho()/2);
+        float bordeIzqPep = (float) (pep.getX() - pep.getAncho()/2);
+
+        float bordeSuperiorGnomo = (float) (this.y - (this.alto / 2));
+        float bordeInferiorGnomo = (float) (this.y + (this.alto / 2));
+        float bordeSuperiorPep = (float) (pep.getY() - (pep.getAlto() / 2));
+        float bordeInferiorPep = (float) (pep.getY() + (pep.getAlto() / 2));
+
+        if ((bordeDerGnomo >= bordeIzqPep && bordeIzqGnomo <= bordeDerPep) && (bordeInferiorGnomo >= bordeSuperiorPep && bordeSuperiorGnomo <= bordeInferiorPep)){
+            System.out.println("COLISION PEP GNOMO ...");
+            return true;
+        }
+        return false;
+    }
 
 
 
