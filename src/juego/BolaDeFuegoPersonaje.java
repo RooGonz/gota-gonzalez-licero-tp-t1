@@ -8,7 +8,6 @@ public class BolaDeFuegoPersonaje {
 	private double x;
 	private double y;
 	private double radio;
-	private double escala;
 	private double velocidad;
 	private double alto;
 	private boolean activo;
@@ -20,9 +19,8 @@ public class BolaDeFuegoPersonaje {
 		this.velocidad = 2; 
 		this.radio = 10;
 		this.alto = 20;
-		this.escala = 0;
-        this.activo = activo;
-        this.direccion=direccion;
+        	this.activo = activo;
+       		this.direccion=direccion;
 	}
 	
 
@@ -30,11 +28,6 @@ public class BolaDeFuegoPersonaje {
 		entorno.dibujarCirculo(this.x, this.y, this.radio*2, Color.red);
 	}
 	
-//	public void mover() {
-//		this.x+=movimientoHorizontal*velocidad;
-//		this.y+=movimientoVertical*velocidad;
-//		
-//	}
 	
 	public void mover(Personaje p) {
 		if(direccion==true) {
