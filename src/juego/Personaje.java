@@ -10,16 +10,20 @@ public class Personaje {
 	private double y;
 	private double ancho;
 	private double alto;
-	public boolean direccion;
-	private double desplazamiento;
+	private double desplazamiento;	
+	private boolean direccionDer;
 
-	public Personaje(double x, double y, double ancho, double alto, double desplazamiento) {
+
+	public Personaje(double x, double y, double ancho, double alto, double desplazamiento, boolean direccionDer) {
 		this.x = x;
 		this.y = y;
 		this.ancho = ancho;
 		this.alto = alto;
 		this.desplazamiento = desplazamiento;
-		this.direccion = true;
+
+		this.direccionDer = direccionDer;
+
+
 	}
 	
 	public void dibujarse(Entorno e) {
@@ -33,17 +37,19 @@ public class Personaje {
 		this.y += this.desplazamiento; 
 	}
 	public void moverDerecha() {
-		this.x += this.desplazamiento; 
-		this.direccion = true;
+	this.direccionDer = true;
+	this.x += this.desplazamiento; 
+
 	}
 	public void moverIzquierda() {
+		this.direccionDer = false;
 		this.x -= this.desplazamiento; 
-		this.direccion = false;
+		
 	}
 	
 	public void saltar() {
 		int desplazo = 0;
-		while (desplazo < 40) {
+		while (desplazo < 10) {
 			desplazo ++;
 			this.y -= this.desplazamiento;	
 		}
@@ -105,15 +111,15 @@ public class Personaje {
 			if(isla==null) {
 				continue;
 			}
-			double bordeSuperiorPersonaje = this.y - (this.alto / 2);
-			double bordeInferiorIsla = isla.getY() + (isla.getAlto() / 2);
-		    
-		    if(bordeSuperiorPersonaje <= bordeInferiorIsla && bordeSuperiorPersonaje>= bordeInferiorIsla-desplazamiento) {
-				if(this.x+(this.ancho/2) > isla.getX()-(isla.getAncho()/2)  &&  this.x-(this.ancho/2) < isla.getX()+(isla.getAncho()/2)) {
-					this.y=(int) bordeInferiorIsla+(this.alto/2);
-					return true;
-				}
-			}			
+		double bordeSuperiorPersonaje = this.y - (this.alto / 2);
+            	double bordeInferiorIsla = isla.getY() + (isla.getAlto() / 2);
+
+            		if(bordeSuperiorPersonaje <= bordeInferiorIsla && bordeSuperiorPersonaje >= bordeInferiorIsla+desplazamiento) {
+                		if(this.x+(this.ancho/2) < isla.getX()+(isla.getAncho()/2)  &&  this.x-(this.ancho/2) > isla.getX()-(isla.getAncho()/2)) {
+                    			this.y=bordeInferiorIsla+(this.alto/2);
+                    			return true;
+                		}
+            		}						
 		}	
 		return false;
 	}
@@ -124,11 +130,15 @@ public class Personaje {
 			if(isla==null) {
 				continue;
 			}					
-			if(this.x+(this.ancho/2) == isla.getX()-(isla.getAncho()/2)) {
-				if(this.y+(this.alto/2) > isla.getY()-(isla.getAlto()/2)  &&  this.y-(this.alto/2) < isla.getY()+(isla.getAlto()/2)) {
-					return true;
-				}
-			}			
+		double bordeDerechoPersonaje = this.x + (this.ancho / 2);
+            	double bordeIzquierdoIsla = isla.getX() - (isla.getAncho() / 2);
+            
+            		if (bordeDerechoPersonaje >= bordeIzquierdoIsla && bordeDerechoPersonaje <= bordeIzquierdoIsla + desplazamiento) {
+                		if (this.y + (this.alto / 2) > isla.getY() - (isla.getAlto() / 2) && this.y - (this.alto / 2) < isla.getY() + (isla.getAlto() / 2)) {
+                    			this.x = bordeIzquierdoIsla - (this.ancho / 2);
+                    			return true;
+                		}
+            		}				
 		}		
 		return false;
 	}
@@ -138,11 +148,15 @@ public class Personaje {
 			if(isla==null) {
 				continue;
 			}
-			if(this.x-(this.ancho/2) == isla.getX()+(isla.getAncho()/2)+1) {
-				if(this.y+(this.alto/2) > isla.getY()-(isla.getAlto()/2)  &&  this.y-(this.alto/2) < isla.getY()+(isla.getAlto()/2)) {
-					return true;
-				}
-			}			
+		double bordeIzquierdoPersonaje = this.x - (this.ancho / 2);
+            	double bordeDerechoIsla = isla.getX() + (isla.getAncho() / 2);
+
+            		if (bordeIzquierdoPersonaje <= bordeDerechoIsla && bordeIzquierdoPersonaje >= bordeDerechoIsla - desplazamiento) {
+                		if (this.y + (this.alto / 2) > isla.getY() - (isla.getAlto() / 2) && this.y - (this.alto / 2) < isla.getY() + (isla.getAlto() / 2)) {
+                    			this.x = bordeDerechoIsla + (this.ancho / 2);
+                    			return true;
+                		}
+           		 }				
 		}		
 		return false;
 	}
@@ -208,6 +222,9 @@ public class Personaje {
 
 	public double getAlto() {
 		return alto;
+	}
+	public boolean getdireccionDerecha() {
+		return direccionDer;
 	}
   
 }

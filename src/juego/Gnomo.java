@@ -131,9 +131,8 @@ public class Gnomo {
         }
         return false;
     }
-   
     public boolean colisionConPersonaje(Personaje pep){
-       
+        
         if (pep == null){
             return false;
         }

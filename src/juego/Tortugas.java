@@ -1,7 +1,8 @@
 package juego;
 
 import java.awt.Color;
-
+import java.awt.Image;
+import entorno.Herramientas;
 import entorno.Entorno;
 
 public class Tortugas {
@@ -11,6 +12,8 @@ public class Tortugas {
 	private double alto;
 	private double desplazamiento;
 	private int velocidad;
+	double escala;
+	private Image Izq;
 	
 	public Tortugas(double x, double y,double ancho, double alto, double despl) {
 		this.x = x;
@@ -19,10 +22,16 @@ public class Tortugas {
 		this.alto = alto;
 		this.desplazamiento=despl;
 		this.velocidad = 1;
+		this.escala=1;
+		this.Izq= Herramientas.cargarImagen("imagenes/tortugaIzquierda.jpg");
 	}
 	
 	public void dibujar(Entorno entorno) {
 		entorno.dibujarRectangulo(x, y, ancho, alto, 0, Color.GREEN);
+		if(Izq!=null) {
+		entorno.dibujarImagen(Izq, this.x, this.y, escala);
+		}
+		
 	}
 	
 	public void caer() {
@@ -92,6 +101,29 @@ public class Tortugas {
 	public boolean bordeInferiorEntorno(Entorno e){
 		return this.y + this.alto/2 >= e.alto();
 	}
+	public boolean colisionConTortuga(BolaDeFuegoPersonaje b){
+	       
+        if (b == null){
+            return false;
+        }
+        
+        float bordeDerBola = (float) (b.getX() + b.getRadio()/2);
+        float bordeIzqBola = (float) (b.getX() - b.getRadio()/2);
+        float bordeDerTortu = (float) (this.x + this.getAncho()/2);
+        float bordeIzqTortu = (float) (this.x - this.getAncho()/2);
+
+        float bordeSuperiorBola = (float) (b.getY() - (b.getRadio() / 2));
+        float bordeInferiorBola = (float) (b.getY() + (b.getRadio() / 2));
+        float bordeSuperiorTortu = (float) (this.y - (this.alto / 2));
+        float bordeInferiorTortu = (float) (this.y + (this.alto / 2));
+
+        if ((bordeDerBola >= bordeIzqTortu && bordeIzqBola <= bordeDerTortu) && (bordeInferiorBola >= bordeSuperiorTortu && bordeSuperiorBola <= bordeInferiorTortu)){
+            System.out.println("COLISION BOLA DE FUEGO TORTU ...");
+            return true;
+        }
+        return false;
+    }
+
 
 	public double getX() {
 		return x;
