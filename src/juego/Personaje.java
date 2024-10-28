@@ -10,8 +10,8 @@ public class Personaje {
 	private double y;
 	private double ancho;
 	private double alto;
-	
 	private double desplazamiento;
+	private boolean direccion;
 
 	public Personaje(double x, double y, double ancho, double alto, double desplazamiento) {
 		this.x = x;
@@ -19,6 +19,7 @@ public class Personaje {
 		this.ancho = ancho;
 		this.alto = alto;
 		this.desplazamiento = desplazamiento;
+		this.direccion=false;
 	}
 	
 	public void dibujarse(Entorno e) {
@@ -33,14 +34,16 @@ public class Personaje {
 	}
 	public void moverDerecha() {
 		this.x += this.desplazamiento; 
+		this.direccion=false;
 	}
 	public void moverIzquierda() {
 		this.x -= this.desplazamiento; 
+		this.direccion=true;
 	}
 	
-	public void salto() {
+	public void saltar() {
 		int desplazo = 0;
-		while (desplazo <= 3) {
+		while (desplazo < 40) {
 			desplazo ++;
 			this.y -= this.desplazamiento;	
 		}
