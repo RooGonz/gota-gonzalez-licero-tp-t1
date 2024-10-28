@@ -48,11 +48,11 @@ public class BolaDeFuegoPersonaje {
 			if(isla==null) {
 				continue;
 			}					
-		double bordeDerechoPersonaje = this.x + (this.radio );
+		double bordeDerechoBola = this.x + (this.radio);
             	double bordeIzquierdoIsla = isla.getX() - (isla.getAncho() / 2);
-            
-            		if (bordeDerechoPersonaje >= bordeIzquierdoIsla && bordeDerechoPersonaje <= bordeIzquierdoIsla ) {
-                		if (this.y + (this.radio ) > isla.getY() - (isla.getAlto() / 2) && this.y - (this.radio) < isla.getY() + (isla.getAlto() / 2)) {
+
+            		if (bordeDerechoBola >= bordeIzquierdoIsla && bordeDerechoBola <= bordeIzquierdoIsla + velocidad) {
+                		if (this.y + (this.alto / 2) > isla.getY() - (isla.getAlto() / 2) && this.y - (this.alto / 2) < isla.getY() + (isla.getAlto() / 2)) {
                     			this.x = bordeIzquierdoIsla - (this.radio);
                     			return true;
                 		}
@@ -66,15 +66,16 @@ public class BolaDeFuegoPersonaje {
 			if(isla==null) {
 				continue;
 			}
-		double bordeIzquierdoPersonaje = this.x - (this.radio );
+		
+		double bordeIzquierdoBola = this.x - (this.radio);
             	double bordeDerechoIsla = isla.getX() + (isla.getAncho() / 2);
 
-            		if (bordeIzquierdoPersonaje <= bordeDerechoIsla && bordeIzquierdoPersonaje >= bordeDerechoIsla) {
+            		if (bordeIzquierdoBola <= bordeDerechoIsla && bordeIzquierdoBola >= bordeDerechoIsla - 10) {
                 		if (this.y + (this.alto / 2) > isla.getY() - (isla.getAlto() / 2) && this.y - (this.alto / 2) < isla.getY() + (isla.getAlto() / 2)) {
                     			this.x = bordeDerechoIsla + (this.radio);
                     			return true;
                 		}
-           		 }				
+            		}					
 		}		
 		return false;
 	}
