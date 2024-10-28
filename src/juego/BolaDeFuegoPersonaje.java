@@ -9,40 +9,57 @@ public class BolaDeFuegoPersonaje {
 	private double y;
 	private double radio;
 	private double escala;
-    	private double velocidad;
+	private double velocidad;
    	private double alto;
-    	private boolean activo;
-    	private boolean direccionDerecha;
+	private boolean activo;
+	private boolean direccion;
+	private int desplazamiento;
 	
-	public BolaDeFuegoPersonaje(double x, double y, double radio, int movV, int movH, int vel) {
+	public BolaDeFuegoPersonaje(double x, double y, double radio, int desplazamiento, int vel) {
 		this.x = x;
 		this.y = y;
-		this.velocidad = 2; 
-        	this.radio = 10;
-        	this.alto = 20;
-        	this.escala = 0;
-        	this.activo = true; 
-        	this.direccionDerecha = direccionDerecha;;
+		this.velocidad = vel; 
+		this.radio = radio;
+		this.alto = 20;
+		this.desplazamiento = desplazamiento;
+		this.activo = activo; 
+		
 	}
 	
 	public void dibujar(Entorno entorno) {
 		entorno.dibujarCirculo(this.x, this.y, this.radio*2, Color.red);
 	}
 	
-	public void mover() {
-		this.x+=movimientoHorizontal*velocidad;
-		this.y+=movimientoVertical*velocidad;
+	//public void mover2() {
+	//	this.x+=movimientoHorizontal*velocidad;
+	//	this.y+=movimientoVertical*velocidad;
 		
-	}
+	//}
 	
-	public void mover() {
-        if (direccionDerecha) {
+	public void mover(Personaje p) {
+        if (p.direccion ) {
             this.x -= this.velocidad; // Si el personaje mira hacia la derecha, el disparo se mueve hacia la derecha
         } else {
             this.x += this.velocidad; // Si el personaje mira hacia la izquierda, el disparo se mueve hacia la izquierda
         }
     }
 	
+	public boolean colisionaPorDerecha(Entorno e) {
+		if(this.x + this.radio >= e.ancho()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	public boolean colisionaPorIzquierda(Entorno e) {
+		if(this.x - this.radio <= e.ancho() - e.ancho()) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 	
 	public double getX() {
 		return x;

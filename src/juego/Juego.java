@@ -22,6 +22,9 @@ public class Juego extends InterfaceJuego {
 	//contadores en pantalla
 	private int contadorBordeInferior;
     private int contadorColisionTortugas;
+	private int gnomoSalvado;
+
+	private BolaDeFuegoPersonaje bolaDeFuego;
 
 
 
@@ -42,7 +45,8 @@ public class Juego extends InterfaceJuego {
 		this.lastGnomoTime = System.currentTimeMillis(); // Inicializa el temporizador
 		this.contadorBordeInferior = 0;
         this.contadorColisionTortugas = 0;
-
+		this.gnomoSalvado = 0;
+		
 		// Inicia el juego!
 		this.entorno.iniciar();
 	}
@@ -95,6 +99,13 @@ public class Juego extends InterfaceJuego {
                         break;
                     }
                 }
+				if (gnomo.colisionConPersonaje(personaje)) {
+					gnomos[i] = null; // Pep salva Gnomo
+					System.out.println("peptortu ... ");
+					gnomoSalvado++;
+
+					
+				}
 			}
 		}
 		
@@ -128,14 +139,16 @@ public class Juego extends InterfaceJuego {
 				        	tortugas[i] =null;
 				        	System.out.println("nulll");
 				        }
-					}else {
+						
+					}
+					else {
 						//si una tortuga queda en null
 						agregarTortuga(); //agrega otra tortuga
 					}
 		}
 		//dibujo del personaje
-		 personaje.dibujarse(entorno);
-		 
+		personaje.dibujarse(entorno);
+		if (personaje != null){ 
 		//Colisiones personaje - entorno
 			if(entorno.estaPresionada(entorno.TECLA_DERECHA) && !personaje.colisionaPorDerecha(entorno) && !personaje.estaColisionandoPorDerecha(islas))
 				personaje.moverDerecha();
@@ -151,17 +164,36 @@ public class Juego extends InterfaceJuego {
 			}
 			//dubijo de la Bola de fuego Personaje
 			if(entorno.sePresiono(entorno.TECLA_ESPACIO)) {
-				this.bolaDeFuego = new BolaDeFuegoPersonaje(personaje.getX(), personaje.getY(), true);
-							
+				
+
 			}
-			bolaDeFuego.dibujar(entorno);
-			bolaDeFuego.mover();
 			
+
+			//verifica que el Pep cae al vacio y lo elimina
+			if (personaje.colisionaPorAbajo(entorno)){
+				//personaje = null;
+				
+				System.out.print("Pep muerto ");
+			}
+			// Verificar colisión con tortugas
+			for (Tortugas tortuga : tortugas) {
+				if (tortuga != null && personaje.colisionConTortuga(tortuga)) {
+					
+					//personaje = null; // Eliminar a Pep
+					System.out.println("peptortu ... ");
+					break;
+				}
+			}
+			
+			
+		}
 			// Dibujar contadores en la parte superior
 			entorno.cambiarFont("Arial", 18, Color.WHITE);
 			entorno.escribirTexto("Gnomos perdidos: " + contadorBordeInferior, 20, 20);
 			entorno.escribirTexto("Gnomos eliminados x tortugas: " + contadorColisionTortugas, 20, 40);
-			//entorno.escribirTexto("TIEMPO: " + tiempoDeJuego, 300, 20);
+			entorno.escribirTexto("Gnomos salvados: " + gnomoSalvado, 20, 80);
+			entorno.escribirTexto("TIEMPO: " + tiempoDeJuego / 600, 300, 20);
+			
 	}
 
 	@SuppressWarnings("unused")
@@ -186,7 +218,7 @@ public class Juego extends InterfaceJuego {
 	private void agregarGnomo() {
         for (int i = 0; i < gnomos.length; i++) {
             if (gnomos[i] == null) {
-                gnomos[i] = new Gnomo(entorno.ancho()/2, entorno.alto()/6-26, 15, 20, 1, 1);
+                gnomos[i] = new Gnomo(entorno.ancho()/2, entorno.alto()/6-26, 15, 20, 1, 2);
                 break; // se sale para que solo agregue un gnomo por vez
             }
         }
@@ -208,4 +240,6 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 		return islas;}
+
+		
 }
