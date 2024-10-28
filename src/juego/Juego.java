@@ -23,6 +23,7 @@ public class Juego extends InterfaceJuego {
 	private Islas[] islas;
 	private Personaje personaje;
 	private BolaDeFuegoPersonaje bolaDeFuego;
+
 	//variables de tiempo para los gnomos
 	private long lastGnomoTime;
     private final int tiempoSpawneo = 3000; // 3 segundos en milisegundos
@@ -40,8 +41,10 @@ public class Juego extends InterfaceJuego {
 		// Inicializar lo que haga falta para el juego
 		// ...
 		
-		this.personaje = new Personaje (10, 10, 20, 30, 3);
-		this.casa = new CasaDeLosGnomos(entorno.ancho()/2, entorno.alto()-(entorno.alto()-50), 60, 75);
+
+		this.personaje = new Personaje (entorno.ancho()- (entorno.ancho()/25), entorno.alto()/10, 20, 60, 3, true);
+		this.casa = new CasaDeLosGnomos(entorno.ancho()/2, entorno.alto()-(entorno.alto()-75), 60, 75);
+
 		this.gnomos = new Gnomo[4];
 		this.tortugas= new Tortugas[9];		
 		islas = crearIslas(entorno);
@@ -119,6 +122,9 @@ public class Juego extends InterfaceJuego {
                         break;
                     }
                 }
+                if(gnomo.colisionConPersonaje(personaje)) {
+                	gnomos[i]=null;
+                }
 			}
 		}
 		
@@ -135,6 +141,7 @@ public class Juego extends InterfaceJuego {
 						tortuga.dibujar(entorno);
 						tortuga.caer();			
 
+
 						//colision tortugas - islas
 						if(tortuga.estaColisionandoPorAbajo(islas)) {
 							tortuga.moverIzquierda();
@@ -146,11 +153,16 @@ public class Juego extends InterfaceJuego {
 							//movimiento tortugas sobre islas
 							if(!tortuga.llegaAlBorde(islas)) {						
 								tortuga.cambiarMovimiento();
-							}	
+							}
+							if(tortuga.colisionConTortuga(bolaDeFuego)) {
+								tortugas[i]=null;
+								bolaDeFuego=null;
+							}
 						}
 						
-						
-					}else {
+					}
+
+					else {
 						//si una tortuga queda en null
 						agregarTortuga(); //agrega otra tortuga
 					}
@@ -171,14 +183,23 @@ public class Juego extends InterfaceJuego {
 			if (!personaje.estaColisionandoPorAbajo(islas)) {
 				personaje.moverAbajo();
 			}
-////			//dubujo de la Bola de fuego Personaje
-////			if(entorno.sePresiono(entorno.TECLA_ESPACIO)) {
-////				this.bolaDeFuego = new BolaDeFuegoPersonaje(personaje.getX(), personaje.getY(), true);
-////							
-////			}
-//			bolaDeFuego.dibujar(entorno);
-//			bolaDeFuego.moverBola();
-			
+
+			//dubijo de la Bola de fuego Personaje
+			if(entorno.sePresiono(entorno.TECLA_ESPACIO) && bolaDeFuego==null) {
+				this.bolaDeFuego = new BolaDeFuegoPersonaje(personaje.getX(), personaje.getY(), true,personaje.getdireccionDerecha());
+					
+						
+			}
+			if(this.bolaDeFuego!=null) {
+				bolaDeFuego.dibujar(entorno);
+				bolaDeFuego.mover(personaje);
+				if(bolaDeFuego.colisionaPorDerecha(entorno) || bolaDeFuego.colisionaPorIzquierda(entorno) ||
+						bolaDeFuego.estaColisionandoPorDerecha(islas) || bolaDeFuego.estaColisionandoPorIzquierda(islas)) {
+					bolaDeFuego=null;
+				}
+			}
+
+
 			// Dibujar contadores en la parte superior
 			entorno.cambiarFont("Arial", 18, Color.WHITE);
 			entorno.escribirTexto("Gnomos perdidos: " + contadorBordeInferior, 20, 20);
@@ -195,10 +216,11 @@ public class Juego extends InterfaceJuego {
 		int dibx;
 	    for (int i = 0; i < tortugas.length; i++) {
 	    	if (tortugas[i] == null) {
-	    		posx=entorno.ancho()/2;//posicion de la isla mas alta
+	    		posx=(entorno.ancho()/2);//posicion de la isla mas alta
 	    		dibx=entorno.ancho() / 10 * (i + 1);//ancho del entorno en el que aparece la tortuga
 	    		while (dibx > posx || dibx < posx) {
 	    			tortugas[i] = new Tortugas(dibx , entorno.alto() - entorno.alto(), 20, 30, 1);
+	    			
 	    			break; // Solo agrega una tortuga por vez
 	    		}
 	    	}
@@ -224,9 +246,14 @@ public class Juego extends InterfaceJuego {
 			y=y+100;
 			int expansion=-50*i;
 			for(int j=1 ; j<=i; j++) {
+				if(indice<3) {
+					x=((e.ancho()-expansion)/(i+1)*j+expansion/2);
+					islas[indice]= new Islas(x,y,e.ancho()/7,30);
+					indice++;
+				}else {
 				x=(e.ancho()-expansion)/(i+1)*j+expansion/2;
 				islas[indice]= new Islas(x,y,e.ancho()/8,30);
-				indice++;
+				indice++;}
 			}
 		}
 		return islas;}

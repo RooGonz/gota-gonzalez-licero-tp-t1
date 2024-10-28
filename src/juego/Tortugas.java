@@ -101,6 +101,29 @@ public class Tortugas {
 	public boolean bordeInferiorEntorno(Entorno e){
 		return this.y + this.alto/2 >= e.alto();
 	}
+	public boolean colisionConTortuga(BolaDeFuegoPersonaje b){
+	       
+        if (b == null){
+            return false;
+        }
+        
+        float bordeDerBola = (float) (b.getX() + b.getRadio()/2);
+        float bordeIzqBola = (float) (b.getX() - b.getRadio()/2);
+        float bordeDerTortu = (float) (this.x + this.getAncho()/2);
+        float bordeIzqTortu = (float) (this.x - this.getAncho()/2);
+
+        float bordeSuperiorBola = (float) (b.getY() - (b.getRadio() / 2));
+        float bordeInferiorBola = (float) (b.getY() + (b.getRadio() / 2));
+        float bordeSuperiorTortu = (float) (this.y - (this.alto / 2));
+        float bordeInferiorTortu = (float) (this.y + (this.alto / 2));
+
+        if ((bordeDerBola >= bordeIzqTortu && bordeIzqBola <= bordeDerTortu) && (bordeInferiorBola >= bordeSuperiorTortu && bordeSuperiorBola <= bordeInferiorTortu)){
+            System.out.println("COLISION BOLA DE FUEGO TORTU ...");
+            return true;
+        }
+        return false;
+    }
+
 
 	public double getX() {
 		return x;

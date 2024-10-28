@@ -1,7 +1,10 @@
 package juego;
 import java.awt.Color;
 import entorno.Entorno;
+import entorno.Herramientas;
+
 import java.util.Random;
+import java.awt.Image;
 
 public class Gnomo {
     private double x;
@@ -12,8 +15,11 @@ public class Gnomo {
     private int movimientoHorizontal ;
     private int velocidad;
     private double desplazamiento;
-    Random random = new Random();
+    private Random random = new Random();
     private boolean enIsla;
+
+    private Image izq;
+    private Image der;
     
 
     
@@ -26,13 +32,21 @@ public class Gnomo {
         this.desplazamiento = despl;
         this.movimientoHorizontal = 1;
         this.enIsla = false;
+        this.izq = Herramientas.cargarImagen("imagenes/gnomoIzq.png");
+        this.der = Herramientas.cargarImagen("imagenes/gnomoDer.png");
 
     }
 
     
 
     public void dibujar(Entorno e){
-        e.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.MAGENTA);
+        //e.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.MAGENTA);
+        if (this.movimientoHorizontal == -1){
+            e.dibujarImagen(izq, this.x, this.y-5, 0, 0.05);
+        }
+        else{
+            e.dibujarImagen(der, this.x, this.y-5, 0, 0.05);
+        }
     }
 
     public void mover(){
@@ -113,6 +127,28 @@ public class Gnomo {
 
         if ((bordeDerGnomo >= bordeIzqTortu && bordeIzqGnomo <= bordeDerTortu) && (bordeInferiorGnomo >= bordeSuperiorTortu && bordeSuperiorGnomo <= bordeInferiorTortu)){
             System.out.println("COLISIONTORTU ...");
+            return true;
+        }
+        return false;
+    }
+    public boolean colisionConPersonaje(Personaje pep){
+        
+        if (pep == null){
+            return false;
+        }
+        
+        float bordeDerGnomo = (float) (this.x + this.ancho/2);
+        float bordeIzqGnomo = (float) (this.x - this.ancho/2);
+        float bordeDerPep = (float) (pep.getX() + pep.getAncho()/2);
+        float bordeIzqPep = (float) (pep.getX() - pep.getAncho()/2);
+
+        float bordeSuperiorGnomo = (float) (this.y - (this.alto / 2));
+        float bordeInferiorGnomo = (float) (this.y + (this.alto / 2));
+        float bordeSuperiorPep = (float) (pep.getY() - (pep.getAlto() / 2));
+        float bordeInferiorPep = (float) (pep.getY() + (pep.getAlto() / 2));
+
+        if ((bordeDerGnomo >= bordeIzqPep && bordeIzqGnomo <= bordeDerPep) && (bordeInferiorGnomo >= bordeSuperiorPep && bordeSuperiorGnomo <= bordeInferiorPep)){
+            System.out.println("COLISION PEP GNOMO ...");
             return true;
         }
         return false;
