@@ -16,6 +16,8 @@ public class Juego extends InterfaceJuego {
 	private Tortugas[] tortugas;
 	private Islas[] islas;
 	private Personaje personaje;
+	private BolaDeFuegoPersonaje bolaDeFuego;
+
 	//variables de tiempo para los gnomos
 	private long lastGnomoTime;
     private final int tiempoSpawneo = 3000; // 3 segundos en milisegundos
@@ -33,7 +35,7 @@ public class Juego extends InterfaceJuego {
 		// Inicializar lo que haga falta para el juego
 		// ...
 		
-		this.personaje = new Personaje (entorno.ancho()- (entorno.ancho()/25), entorno.alto()/10, 20, 60, 3);
+		this.personaje = new Personaje (entorno.ancho()- (entorno.ancho()/25), entorno.alto()/10, 20, 60, 3, true);
 		this.casa = new CasaDeLosGnomos(entorno.ancho()/2, entorno.alto()/6-26, 60, 75);
 		this.gnomos = new Gnomo[4];
 		this.tortugas= new Tortugas[9];		
@@ -144,7 +146,7 @@ public class Juego extends InterfaceJuego {
 				personaje.moverIzquierda();
 				
 			if(entorno.estaPresionada(entorno.TECLA_ARRIBA) && !personaje.colisionaPorArriba(entorno) && personaje.estaColisionandoPorAbajo(islas))
-				personaje.saltar();
+				personaje.salta();
 
 			if (!personaje.estaColisionandoPorAbajo(islas)) {
 				personaje.moverAbajo();
@@ -155,7 +157,7 @@ public class Juego extends InterfaceJuego {
 							
 			}
 			bolaDeFuego.dibujar(entorno);
-			bolaDeFuego.mover();
+			bolaDeFuego.mover(personaje);
 			
 			// Dibujar contadores en la parte superior
 			entorno.cambiarFont("Arial", 18, Color.WHITE);
