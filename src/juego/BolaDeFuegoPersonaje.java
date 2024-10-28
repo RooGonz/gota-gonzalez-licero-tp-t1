@@ -12,7 +12,6 @@ public class BolaDeFuegoPersonaje {
     	private double velocidad;
    	private double alto;
     	private boolean activo;
-    	private boolean direccionDerecha;
 	
 	public BolaDeFuegoPersonaje(double x, double y, double radio, int movV, int movH, int vel) {
 		this.x = x;
@@ -22,7 +21,6 @@ public class BolaDeFuegoPersonaje {
         	this.alto = 20;
         	this.escala = 0;
         	this.activo = true; 
-        	this.direccionDerecha = direccionDerecha;;
 	}
 	
 	public void dibujar(Entorno entorno) {
@@ -35,14 +33,13 @@ public class BolaDeFuegoPersonaje {
 		
 	}
 	
-	public void mover() {
-        if (direccionDerecha) {
-            this.x -= this.velocidad; // Si el personaje mira hacia la derecha, el disparo se mueve hacia la derecha
-        } else {
-            this.x += this.velocidad; // Si el personaje mira hacia la izquierda, el disparo se mueve hacia la izquierda
-        }
-    }
-	
+	public void mover(Personaje p) {
+		if(p.getdireccionDerecha()) {
+            		this.x += this.velocidad; // Si el personaje mira hacia la derecha, el disparo se mueve hacia la derecha
+        	} else {
+            		this.x -= this.velocidad; // Si el personaje mira hacia la izquierda, el disparo se mueve hacia la izquierda
+        	}
+    	}
 	
 	public double getX() {
 		return x;
