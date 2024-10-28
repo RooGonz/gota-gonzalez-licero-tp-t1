@@ -39,7 +39,7 @@ public class Juego extends InterfaceJuego {
 
 		this.gnomos = new Gnomo[4];
 		
-		this.tortugas= new Tortugas[4];
+		this.tortugas= new Tortugas[5];
 		for (int i = 0; i < tortugas.length; i++) {
 		    tortugas[i] = new Tortugas(entorno.ancho() / 5*(i + 1), entorno.alto() - entorno.alto(), 25, 50, 1, 1);
 		}
@@ -183,7 +183,7 @@ public class Juego extends InterfaceJuego {
 			int expansion=-50*i;
 			for(int j=1 ; j<=i; j++) {
 				x=(e.ancho()-expansion)/(i+1)*j+expansion/2;
-				islas[indice]= new Islas(x,y,e.ancho()/7,30);
+				islas[indice]= new Islas(x,y,e.ancho()/8,30);
 				indice++;
 			}
 		}
