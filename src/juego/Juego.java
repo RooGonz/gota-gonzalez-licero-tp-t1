@@ -33,17 +33,10 @@ public class Juego extends InterfaceJuego {
 		// Inicializar lo que haga falta para el juego
 		// ...
 		
-		this.personaje = new Personaje (10, 10, 50, 125, 3);
-
+		this.personaje = new Personaje (entorno.ancho()- (entorno.ancho()/25), entorno.alto()/10, 20, 60, 3);
 		this.casa = new CasaDeLosGnomos(entorno.ancho()/2, entorno.alto()/6-26, 60, 75);
-
 		this.gnomos = new Gnomo[4];
-		
-		this.tortugas= new Tortugas[5];
-		for (int i = 0; i < tortugas.length; i++) {
-		    tortugas[i] = new Tortugas(entorno.ancho() / 5*(i + 1), entorno.alto() - entorno.alto(), 25, 50, 1, 1);
-		}
-
+		this.tortugas= new Tortugas[9];		
 		islas = crearIslas(entorno);
 
 		this.lastGnomoTime = System.currentTimeMillis(); // Inicializa el temporizador
@@ -72,7 +65,6 @@ public class Juego extends InterfaceJuego {
             agregarGnomo();
             lastGnomoTime = tiempoDeJuego;
         }
-
 
 		for (int i = 0; i < gnomos.length; i++) {
             Gnomo gnomo = gnomos[i];
@@ -113,7 +105,8 @@ public class Juego extends InterfaceJuego {
 			}
 		}
 		// dibujo las tortugas
-		 for (Tortugas tortuga : tortugas) {
+		for (int i = 0; i < tortugas.length; i++) {
+	        Tortugas tortuga = tortugas[i];
 					if(tortuga!=null){
 				        tortuga.dibujar(entorno);
 				        tortuga.caer();			
@@ -127,13 +120,19 @@ public class Juego extends InterfaceJuego {
 				        	tortuga.moverIzquierda();
 
 				        	//movimiento tortugas sobre islas
-				        	if(!tortuga.estaenBorde(islas)) {						
+				        	if(!tortuga.llegaAlBorde(islas)) {						
 				        		tortuga.cambiarMovimiento();
 				        	}	
 				        }
-
+				        if(tortuga.bordeInferiorEntorno(entorno)) {
+				        	tortugas[i] =null;
+				        	System.out.println("nulll");
+				        }
+					}else {
+						//si una tortuga queda en null
+						agregarTortuga(); //agrega otra tortuga
 					}
-				 }
+		}
 		//dibujo del personaje
 		 personaje.dibujarse(entorno);
 		 
@@ -144,12 +143,19 @@ public class Juego extends InterfaceJuego {
 			if(entorno.estaPresionada(entorno.TECLA_IZQUIERDA) && !personaje.colisionaPorIzquierda(entorno) && !personaje.estaColisionandoPorIzquierda(islas))
 				personaje.moverIzquierda();
 				
-			if(entorno.estaPresionada(entorno.TECLA_ARRIBA) && !personaje.colisionaPorArriba(entorno) && !personaje.estaColisionandoPorArriba(islas))
-				personaje.salto();
+			if(entorno.estaPresionada(entorno.TECLA_ARRIBA) && !personaje.colisionaPorArriba(entorno) && personaje.estaColisionandoPorAbajo(islas))
+				personaje.saltar();
 
 			if (!personaje.estaColisionandoPorAbajo(islas)) {
 				personaje.moverAbajo();
 			}
+			//dubijo de la Bola de fuego Personaje
+			if(entorno.sePresiono(entorno.TECLA_ESPACIO)) {
+				this.bolaDeFuego = new BolaDeFuegoPersonaje(personaje.getX(), personaje.getY(), true);
+							
+			}
+			bolaDeFuego.dibujar(entorno);
+			bolaDeFuego.mover();
 			
 			// Dibujar contadores en la parte superior
 			entorno.cambiarFont("Arial", 18, Color.WHITE);
@@ -161,6 +167,20 @@ public class Juego extends InterfaceJuego {
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Juego juego = new Juego();
+	}
+	private void agregarTortuga() {
+		int posx;
+		int dibx;
+	    for (int i = 0; i < tortugas.length; i++) {
+	    	if (tortugas[i] == null) {
+	    		posx=entorno.ancho()/2;//posicion de la isla mas alta
+	    		dibx=entorno.ancho() / 10 * (i + 1);//ancho del entorno en el que aparece la tortuga
+	    		while (dibx > posx || dibx < posx) {
+	    			tortugas[i] = new Tortugas(dibx , entorno.alto() - entorno.alto(), 25, 50, 1);
+	    			break; // Solo agrega una tortuga por vez
+	    		}
+	    	}
+	    }
 	}
 
 	private void agregarGnomo() {
