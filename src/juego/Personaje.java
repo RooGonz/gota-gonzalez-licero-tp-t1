@@ -115,15 +115,15 @@ public class Personaje {
 			if(isla==null) {
 				continue;
 			}
-		double bordeSuperiorPersonaje = this.y - (this.alto / 2);
-            	double bordeInferiorIsla = isla.getY() + (isla.getAlto() / 2);
+			double bordeSuperiorPersonaje = this.y - (this.alto / 2);
+			double bordeInferiorIsla = isla.getY() + (isla.getAlto() / 2);
 
-            		if(bordeSuperiorPersonaje <= bordeInferiorIsla && bordeSuperiorPersonaje >= bordeInferiorIsla-10) {
-                		if(this.x+(this.ancho/2) > isla.getX()+(isla.getAncho()/2)  &&  this.x-(this.ancho/2) < isla.getX()-(isla.getAncho()/2)) {
-                    			this.y=bordeInferiorIsla+(this.alto/2);
-                    			return true;
-                		}
-            		}						
+			if(bordeSuperiorPersonaje <= bordeInferiorIsla && bordeSuperiorPersonaje >= bordeInferiorIsla-10) {
+				if(this.x+(this.ancho/2) > isla.getX()+(isla.getAncho()/2)  &&  this.x-(this.ancho/2) < isla.getX()-(isla.getAncho()/2)) {
+					this.y=bordeInferiorIsla+(this.alto/2);
+					return true;
+				}
+			}						
 		}	
 		return false;
 	}
