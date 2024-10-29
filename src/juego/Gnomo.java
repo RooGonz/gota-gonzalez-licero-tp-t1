@@ -1,5 +1,4 @@
 package juego;
-import java.awt.Color;
 import entorno.Entorno;
 import entorno.Herramientas;
 
@@ -11,13 +10,12 @@ public class Gnomo {
     private double y;
     private double alto;
     private double ancho;
-
     private int movimientoHorizontal ;
     private int velocidad;
     private double desplazamiento;
     private Random random = new Random();
     private boolean enIsla;
-
+    //variables de las imagenes de gnomo
     private Image izq;
     private Image der;
     
@@ -34,13 +32,9 @@ public class Gnomo {
         this.enIsla = false;
         this.izq = Herramientas.cargarImagen("imagenes/gnomoIzq.png");
         this.der = Herramientas.cargarImagen("imagenes/gnomoDer.png");
-
     }
 
-    
-
     public void dibujar(Entorno e){
-        //e.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.MAGENTA);
         if (this.movimientoHorizontal == -1){
             e.dibujarImagen(izq, this.x, this.y-5, 0, 0.05);
         }
@@ -76,7 +70,6 @@ public class Gnomo {
     }
 
     public void caer(Entorno e){
-        //this.y += this.velocidad;
         this.y ++;
     }
 
@@ -126,7 +119,7 @@ public class Gnomo {
         float bordeInferiorTortu = (float) (t.getY() + (t.getAlto() / 2));
 
         if ((bordeDerGnomo >= bordeIzqTortu && bordeIzqGnomo <= bordeDerTortu) && (bordeInferiorGnomo >= bordeSuperiorTortu && bordeSuperiorGnomo <= bordeInferiorTortu)){
-            System.out.println("COLISIONTORTU ...");
+            //System.out.println("COLISIONTORTU ...");
             return true;
         }
         return false;
@@ -148,13 +141,11 @@ public class Gnomo {
         float bordeInferiorPep = (float) (pep.getY() + (pep.getAlto() / 2));
 
         if ((bordeDerGnomo >= bordeIzqPep && bordeIzqGnomo <= bordeDerPep) && (bordeInferiorGnomo >= bordeSuperiorPep && bordeSuperiorGnomo <= bordeInferiorPep)){
-            System.out.println("COLISION PEP GNOMO ...");
+            //System.out.println("COLISION PEP GNOMO ...");
             return true;
         }
         return false;
     }
-
-
 
     //getters and setters
     public double getX() {
@@ -196,12 +187,5 @@ public class Gnomo {
     public void setEnIsla(boolean enIsla) {
         this.enIsla = enIsla;
     }
-
-
-
-
-    
-
-
 
 }
