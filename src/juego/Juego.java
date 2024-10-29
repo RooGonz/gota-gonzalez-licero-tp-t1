@@ -202,6 +202,13 @@ public class Juego extends InterfaceJuego {
 				mostrarGameOver();
 				System.out.print("Pep muerto ");
       }
+			//verifica si el pep rescato el objetivo de gnomos para finalizar el juego
+			if(personaje!= null && gnomoSalvado == 10) {
+				personaje = null;
+				mostrarYouWin();
+				System.out.println("GANO ... ");
+			}
+			
 			// Verificar colisión con tortugas
 			for (Tortugas tortuga : tortugas) {
 				if (tortuga != null && personaje!=null && personaje.colisionConTortuga(tortuga)) {					
@@ -293,6 +300,18 @@ public class Juego extends InterfaceJuego {
 				+ "¿Quieres reiniciar?";
 
 		int opcion = JOptionPane.showConfirmDialog(null, mensaje, "Fin del juego", JOptionPane.YES_NO_OPTION);
+		if (opcion == JOptionPane.YES_OPTION) {
+			reiniciarJuego(); // Método para reiniciar el juego
+		} else {
+			System.exit(0); // Salir del juego
+		}
+	}
+	private void mostrarYouWin() {
+		String mensaje = "¡You Win!\n"
+				+ "Gnomos salvados:"+gnomoSalvado+"\n"
+				+ "¿Quieres reiniciar?";
+
+		int opcion = JOptionPane.showConfirmDialog(null, mensaje, "Fin del juego GANASTE", JOptionPane.YES_NO_OPTION);
 		if (opcion == JOptionPane.YES_OPTION) {
 			reiniciarJuego(); // Método para reiniciar el juego
 		} else {
