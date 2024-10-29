@@ -151,25 +151,6 @@ public class Juego extends InterfaceJuego {
 				        tortuga.dibujar(entorno);
 				        tortuga.caer();			
 				
-				//colision tortugas - entorno
-				        if (tortuga.colisionaPorDerecha(entorno) || tortuga.colisionaPorIzquierda(entorno)) {
-				            tortuga.cambiarMovimiento();
-				        }
-				        //colision tortugas - islas
-				        if(tortuga.estaColisionandoPorAbajo(islas)) {
-				        	tortuga.moverIzquierda();
-
-				        	//movimiento tortugas sobre islas
-				        	if(!tortuga.llegaAlBorde(islas)) {						
-				        		tortuga.cambiarMovimiento();
-				        	}	
-				        }
-				        //if(tortuga.bordeInferiorEntorno(entorno)) {
-				        //	tortugas[i] =null;
-				        //	System.out.println("null");
-				        //}
-						
-			
 						//colision tortugas - islas
 						if(tortuga.estaColisionandoPorAbajo(islas)) {
 							tortuga.moverIzquierda();
@@ -189,10 +170,10 @@ public class Juego extends InterfaceJuego {
 						}
 						
 					}
-					//else {
+					else {
 						//si una tortuga queda en null
 						agregarTortuga(); //agrega otra tortuga
-					//}
+					}
 		}
 		//dibujo del personaje
 		personaje.dibujarse(entorno);
@@ -213,7 +194,7 @@ public class Juego extends InterfaceJuego {
 
 			//verifica que el Pep cae al vacio y lo elimina
 			if (personaje.colisionaPorAbajo(entorno)){
-				//personaje = null;
+				personaje = null;
 				
 				System.out.print("Pep muerto ");
 			}
@@ -221,7 +202,7 @@ public class Juego extends InterfaceJuego {
 			for (Tortugas tortuga : tortugas) {
 				if (tortuga != null && personaje.colisionConTortuga(tortuga)) {
 					
-					//personaje = null; // Eliminar a Pep
+					personaje = null; // Eliminar a Pep
 					System.out.println("peptortu ... ");
 					break;
 				}
