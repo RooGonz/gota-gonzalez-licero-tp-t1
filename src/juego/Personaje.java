@@ -119,7 +119,7 @@ public class Personaje {
 			double bordeInferiorIsla = isla.getY() + (isla.getAlto() / 2);
 
 			if(bordeSuperiorPersonaje <= bordeInferiorIsla && bordeSuperiorPersonaje >= bordeInferiorIsla-10) {
-				if(this.x+(this.ancho/2) > isla.getX()+(isla.getAncho()/2)  &&  this.x-(this.ancho/2) < isla.getX()-(isla.getAncho()/2)) {
+				if(this.x+(this.ancho/2) < isla.getX()+(isla.getAncho()/2)  &&  this.x-(this.ancho/2) > isla.getX()-(isla.getAncho()/2)) {
 					this.y=bordeInferiorIsla+(this.alto/2);
 					return true;
 				}
