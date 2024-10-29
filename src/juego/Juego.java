@@ -175,10 +175,12 @@ public class Juego extends InterfaceJuego {
 						agregarTortuga(); //agrega otra tortuga
 					}
 		}
-		//dibujo del personaje
-		personaje.dibujarse(entorno);
+		
 		if (personaje != null){ 
-		//Colisiones personaje - entorno
+			//dibujo del personaje
+			personaje.dibujarse(entorno);
+
+			//Colisiones personaje - entorno
 			if(entorno.estaPresionada(entorno.TECLA_DERECHA) && !personaje.colisionaPorDerecha(entorno) && !personaje.estaColisionandoPorDerecha(islas))
 				personaje.moverDerecha();
 				
@@ -191,30 +193,10 @@ public class Juego extends InterfaceJuego {
 			if (!personaje.estaColisionandoPorAbajo(islas)) {
 				personaje.moverAbajo();
 			}
-
-			//verifica que el Pep cae al vacio y lo elimina
-			if (personaje.colisionaPorAbajo(entorno)){
-				personaje = null;
-				
-				System.out.print("Pep muerto ");
-			}
-			// Verificar colisión con tortugas
-			for (Tortugas tortuga : tortugas) {
-				if (tortuga != null && personaje.colisionConTortuga(tortuga)) {
-					
-					personaje = null; // Eliminar a Pep
-					System.out.println("peptortu ... ");
-					break;
-				}
-			}
-			
-			
-		}
 			if(entorno.sePresiono(entorno.TECLA_ESPACIO) && bolaDeFuego==null) {
 				this.bolaDeFuego = new BolaDeFuegoPersonaje(personaje.getX(), personaje.getY(), true,personaje.getdireccionDerecha());
-					
-						
 			}
+
 			if(this.bolaDeFuego!=null) {
 				bolaDeFuego.dibujar(entorno);
 				bolaDeFuego.mover(personaje);
@@ -223,6 +205,26 @@ public class Juego extends InterfaceJuego {
 					bolaDeFuego=null;
 				}
 			}
+
+			//verifica que el Pep cae al vacio y lo elimina
+			if (personaje.colisionaPorAbajo(entorno)){
+				//personaje = null;
+				
+				System.out.print("Pep muerto ");
+			}
+			// Verificar colisión con tortugas
+			for (Tortugas tortuga : tortugas) {
+				if (tortuga != null && personaje.colisionConTortuga(tortuga)) {
+					
+					//personaje = null; // Eliminar a Pep
+					System.out.println("peptortu ... ");
+					break;
+				}
+			}
+			
+			
+		}
+			
 
 
 			// Dibujar contadores en la parte superior
