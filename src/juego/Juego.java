@@ -46,8 +46,6 @@ public class Juego extends InterfaceJuego {
 
 		// Inicializar lo que haga falta para el juego
 		// ...
-
-
 		this.personaje = new Personaje (entorno.ancho()- (entorno.ancho()/25), entorno.alto()/10, 20, 60, 3, true);
 		this.casa = new CasaDeLosGnomos(entorno.ancho()/2, entorno.alto()-(entorno.alto()-75), 60, 75);
 
@@ -62,8 +60,6 @@ public class Juego extends InterfaceJuego {
 		this.tiempoJuego = 0; // iniciar el tiempo desde cero
 		this.lastUpdateTime = System.currentTimeMillis(); // inicializar el tiempo de la última actualización
 
-
-
 		// Cargar la imagen de fondo
 		try {
 			InputStream is = getClass().getResourceAsStream("/imagenes/imagenFondo.jpg.jpg");
@@ -76,7 +72,6 @@ public class Juego extends InterfaceJuego {
 			System.err.println("Error al cargar la imagen de fondo: " + e.getMessage());
 			e.printStackTrace();
 		}
-
 
 		// Inicia el juego!
 		this.entorno.iniciar();
@@ -143,8 +138,6 @@ public class Juego extends InterfaceJuego {
 					gnomos[i] = null; // Pep salva Gnomo
 					System.out.println("peptortu ... ");
 					gnomoSalvado++;
-
-
 				}
 			}
 		}
@@ -157,34 +150,33 @@ public class Juego extends InterfaceJuego {
 		}
 		// dibujo las tortugas
 		for (int i = 0; i < tortugas.length; i++) {
-			Tortugas tortuga = tortugas[i];
-			if(tortuga!=null){
-				tortuga.dibujar(entorno);
-				tortuga.caer();			
+	        Tortugas tortuga = tortugas[i];
+					if(tortuga!=null){
+				        tortuga.dibujar(entorno);
+				        tortuga.caer();			
+				
+						//colision tortugas - islas
+						if(tortuga.estaColisionandoPorAbajo(islas)) {
+							tortuga.moverIzquierda();
 
-				//colision tortugas - islas
-				if(tortuga.estaColisionandoPorAbajo(islas)) {
-					tortuga.moverIzquierda();
-
-					//colision tortugas - entorno
-					if (tortuga.colisionaPorDerecha(entorno) || tortuga.colisionaPorIzquierda(entorno)) {
-						tortuga.cambiarMovimiento();
+							//colision tortugas - entorno
+							if (tortuga.colisionaPorDerecha(entorno) || tortuga.colisionaPorIzquierda(entorno)) {
+								tortuga.cambiarMovimiento();
+							}
+							//movimiento tortugas sobre islas
+							if(!tortuga.llegaAlBorde(islas)) {						
+								tortuga.cambiarMovimiento();
+							}
+							if(tortuga.colisionBolaDeFuego(bolaDeFuego)) {
+								tortugas[i]=null;
+								bolaDeFuego=null;
+							}
+						}						
 					}
-					//movimiento tortugas sobre islas
-					if(!tortuga.llegaAlBorde(islas)) {						
-						tortuga.cambiarMovimiento();
+					else {
+						//si una tortuga queda en null
+						agregarTortuga(); //agrega otra tortuga
 					}
-					if(tortuga.colisionBolaDeFuego(bolaDeFuego)) {
-						tortugas[i]=null;
-						bolaDeFuego=null;
-					}
-				}
-
-			}
-			else {
-				//si una tortuga queda en null
-				agregarTortuga(); //agrega otra tortuga
-			}
 		}
 
 		if (personaje != null){ 
@@ -203,15 +195,13 @@ public class Juego extends InterfaceJuego {
 
 			if (!personaje.estaColisionandoPorAbajo(islas)) 
 				personaje.moverAbajo();
-
-
+      
 			//verifica que el Pep cae al vacio y lo elimina
 			if (personaje!= null && personaje.colisionaPorAbajo(entorno)) {
 				personaje = null;
 				mostrarGameOver();
-
-				System.out.print("Pep muerto ");}
-			
+				System.out.print("Pep muerto ");
+      }
 			// Verificar colisión con tortugas
 			for (Tortugas tortuga : tortugas) {
 				if (tortuga != null && personaje!=null && personaje.colisionConTortuga(tortuga)) {					
