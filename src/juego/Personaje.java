@@ -1,8 +1,9 @@
 package juego;
 
 import java.awt.Color;
-
+import java.awt.Image;
 import entorno.Entorno;
+import entorno.Herramientas;
 
 public class Personaje {
 
@@ -12,6 +13,8 @@ public class Personaje {
 	private double alto;
 	private double desplazamiento;	
 	private boolean direccionDer;
+	private Image Izq;
+	private Image Der;
 
 
 	public Personaje(double x, double y, double ancho, double alto, double desplazamiento, boolean direccionDer) {
@@ -22,12 +25,19 @@ public class Personaje {
 		this.desplazamiento = desplazamiento;
 
 		this.direccionDer = direccionDer;
-
+		this.Izq = Herramientas.cargarImagen("imagenes/PepIzq.png");
+		this.Der = Herramientas.cargarImagen("imagenes/PepDer.png");
 
 	}
 	
 	public void dibujarse(Entorno e) {
-		e.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.yellow);
+		//e.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.yellow);
+		if (this.direccionDer == false){
+			e.dibujarImagen(Izq, this.x-5, this.y, 0, 0.18);
+		}
+		else{
+			e.dibujarImagen(Der, this.x+5, this.y, 0, 0.18);
+		}
 	}
 
 	public void moverArriba() {
@@ -48,15 +58,15 @@ public class Personaje {
 	}
 	
 	public void saltar() {
-		int desplazo = 0;
+		//int desplazo = 0;
 		
-		while (desplazo < 10) {
-			desplazo ++;
+		//while (desplazo < 10) {
+		//	desplazo ++;
 			this.y -= this.desplazamiento*2;
-			if(this.estaColisionandoPorArriba(null)) {
-				desplazo=0;
-			}
-		}
+		//	if(this.estaColisionandoPorArriba(null)) {
+		//		desplazo=0;
+		//	}
+		//}
 	}
 	
 	public boolean colisionaPorDerecha(Entorno e) {

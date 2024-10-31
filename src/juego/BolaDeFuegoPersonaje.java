@@ -1,8 +1,9 @@
 package juego;
 
 import java.awt.Color;
-
+import java.awt.Image;
 import entorno.Entorno;
+import entorno.Herramientas;
 
 public class BolaDeFuegoPersonaje {
 	private double x;
@@ -13,6 +14,8 @@ public class BolaDeFuegoPersonaje {
 	private double alto;
 	private boolean activo;
 	private boolean direccion;
+	private Image Izq;
+	private Image Der;
 
 	public BolaDeFuegoPersonaje(double x, double y, boolean activo, boolean direccion) {
 		this.x = x;
@@ -23,11 +26,19 @@ public class BolaDeFuegoPersonaje {
 		this.escala = 0;
         this.activo = activo;
         this.direccion=direccion;
+		this.Izq = Herramientas.cargarImagen("imagenes/bolaFuegoIzq.png");
+		this.Der = Herramientas.cargarImagen("imagenes/bolaFuegoDer.png");
 	}
 	
 
 	public void dibujar(Entorno entorno) {
 		entorno.dibujarCirculo(this.x, this.y, this.radio*2, Color.red);
+		if (direccion){
+			entorno.dibujarImagen(Der, this.x-6, this.y, 0, 0.04);
+		}
+		else{
+			entorno.dibujarImagen(Izq, this.x+6, this.y, 0, 0.04);
+		}
 	}
 	
 //	public void mover() {
@@ -52,7 +63,7 @@ public class BolaDeFuegoPersonaje {
             	double bordeIzquierdoIsla = isla.getX() - (isla.getAncho() / 2);
             
             		if (bordeDerechoPersonaje >= bordeIzquierdoIsla && bordeDerechoPersonaje <= bordeIzquierdoIsla ) {
-                		if (this.y + (this.radio ) > isla.getY() - (isla.getAlto() / 2) && this.y - (this.radio) < isla.getY() + (isla.getAlto() / 2)) {
+                		if ((this.y + (this.radio ) > isla.getY() - (isla.getAlto() / 2)) && (this.y - (this.radio) < isla.getY() + (isla.getAlto() / 2))) {
                     			this.x = bordeIzquierdoIsla - (this.radio);
                     			return true;
                 		}
@@ -70,7 +81,7 @@ public class BolaDeFuegoPersonaje {
             	double bordeDerechoIsla = isla.getX() + (isla.getAncho() / 2);
 
             		if (bordeIzquierdoPersonaje <= bordeDerechoIsla && bordeIzquierdoPersonaje >= bordeDerechoIsla) {
-                		if (this.y + (this.alto / 2) > isla.getY() - (isla.getAlto() / 2) && this.y - (this.alto / 2) < isla.getY() + (isla.getAlto() / 2)) {
+                		if ((this.y + (this.alto / 2) > isla.getY() - (isla.getAlto() / 2) )&& (this.y - (this.alto / 2) < isla.getY() + (isla.getAlto() / 2))) {
                     			this.x = bordeDerechoIsla + (this.radio);
                     			return true;
                 		}

@@ -193,7 +193,7 @@ public class Juego extends InterfaceJuego {
 			if(entorno.estaPresionada(entorno.TECLA_ARRIBA) && !personaje.colisionaPorArriba(entorno) && !personaje.estaColisionandoPorArriba(islas)) 
 				personaje.saltar();
 
-			if (!personaje.estaColisionandoPorAbajo(islas)) 
+			if (!personaje.estaColisionandoPorAbajo(islas) || personaje.estaColisionandoPorArriba(islas)) 
 				personaje.moverAbajo();
       
 			//verifica que el Pep cae al vacio y lo elimina

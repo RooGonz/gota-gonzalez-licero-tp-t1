@@ -36,10 +36,10 @@ public class Gnomo {
 
     public void dibujar(Entorno e){
         if (this.movimientoHorizontal == -1){
-            e.dibujarImagen(izq, this.x, this.y-5, 0, 0.05);
+            e.dibujarImagen(izq, this.x, this.y-9, 0, 0.05);
         }
         else{
-            e.dibujarImagen(der, this.x, this.y-5, 0, 0.05);
+            e.dibujarImagen(der, this.x, this.y-9, 0, 0.05);
         }
     }
 

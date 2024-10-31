@@ -14,7 +14,8 @@ public class Tortugas {
 	private int velocidad;
 	double escala;
 	private Image Izq;
-	
+	private Image Der;
+
 	public Tortugas(double x, double y,double ancho, double alto, double despl) {
 		this.x = x;
 		this.y = y;
@@ -23,15 +24,18 @@ public class Tortugas {
 		this.desplazamiento=despl;
 		this.velocidad = 1;
 		this.escala=1;
-		this.Izq= Herramientas.cargarImagen("imagenes/tortugaIzquierda.jpg");
+		this.Izq= Herramientas.cargarImagen("imagenes/tortugaIzquierda.png");
+		this.Der= Herramientas.cargarImagen("imagenes/tortugaDerecha.png");
 	}
 	
 	public void dibujar(Entorno entorno) {
-		entorno.dibujarRectangulo(x, y, ancho, alto, 0, Color.GREEN);
-		if(Izq!=null) {
-		entorno.dibujarImagen(Izq, this.x, this.y, escala);
+		//entorno.dibujarRectangulo(x, y, ancho, alto, 0, Color.GREEN);
+		if(this.desplazamiento == 1) {
+		entorno.dibujarImagen(Izq, this.x, this.y, 0,0.32);
 		}
-		
+		else{
+			entorno.dibujarImagen(Der, this.x, this.y, 0,0.32);
+		}
 	}
 	
 	public void caer() {
