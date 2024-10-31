@@ -20,7 +20,6 @@ public class Personaje {
 		this.ancho = ancho;
 		this.alto = alto;
 		this.desplazamiento = desplazamiento;
-
 		this.direccionDer = direccionDer;
 
 
