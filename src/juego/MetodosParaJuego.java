@@ -44,11 +44,27 @@ public class MetodosParaJuego {
 			y=y+100;
 			int expansion=-50*i;
 			for(int j=1 ; j<=i; j++) {
-				if(indice<3) {
+				if(indice==1) {
 					x=((e.ancho()-expansion)/(i+1)*j+expansion/2);
-					islas[indice]= new Islas(x,y,e.ancho()/7,30);
+					islas[indice]= new Islas(x+50,y,e.ancho()/8,30);
 					indice++;
-				}else {
+				}
+				else if(indice==2) {
+					x=((e.ancho()-expansion)/(i+1)*j+expansion/2);
+					islas[indice]= new Islas(x-50,y,e.ancho()/8,30);
+					indice++;
+				}
+				else if(indice==3) {
+					x=((e.ancho()-expansion)/(i+1)*j+expansion/2);
+					islas[indice]= new Islas(x+50,y,e.ancho()/8,30);
+					indice++;
+				}
+				else if(indice==5) {
+					x=((e.ancho()-expansion)/(i+1)*j+expansion/2);
+					islas[indice]= new Islas(x-50,y,e.ancho()/8,30);
+					indice++;
+				}
+				else {
 					x=(e.ancho()-expansion)/(i+1)*j+expansion/2;
 					islas[indice]= new Islas(x,y,e.ancho()/8,30);
 					indice++;}

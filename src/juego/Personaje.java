@@ -85,7 +85,7 @@ public class Personaje {
 		}
 	}
 	public boolean colisionaPorArriba(Entorno e) {
-		if(this.y - this.alto/2 <= 0) {
+		if(this.y - this.alto/2 <= 80) {
 			return true;
 		}
 		else {
@@ -191,7 +191,7 @@ public class Personaje {
         float bordeInferiorTortu = (float) (t.getY() + (t.getAlto() / 2));
 
         if ((bordeDerPep >= bordeIzqTortu && bordeIzqPep <= bordeDerTortu) && (bordeInferiorPep >= bordeSuperiorTortu && bordeSuperiorPep <= bordeInferiorTortu)){
-            System.out.println("COLISION PEPTORTU ...");
+            //System.out.println("COLISION PEPTORTU ...");
             return true;
         }
         return false;
@@ -214,7 +214,7 @@ public class Personaje {
         float bordeInferiorGnomo = (float) (gnomo.getY() + (gnomo.getAlto() / 2));
 
         if ((bordeDerPep >= bordeIzqGnomo && bordeIzqPep <= bordeDerGnomo) && (bordeInferiorPep >= bordeSuperiorGnomo && bordeSuperiorPep <= bordeInferiorGnomo)){
-            System.out.println("COLISION PEPGNOMO ...");
+            //System.out.println("COLISION PEPGNOMO ...");
             return true;
         }
         return false;

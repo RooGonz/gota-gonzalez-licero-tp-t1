@@ -122,7 +122,7 @@ public class Tortugas {
         float bordeInferiorTortu = (float) (this.y + (this.alto / 2));
 
         if ((bordeDerBola >= bordeIzqTortu && bordeIzqBola <= bordeDerTortu) && (bordeInferiorBola >= bordeSuperiorTortu && bordeSuperiorBola <= bordeInferiorTortu)){
-            System.out.println("COLISION BOLA DE FUEGO TORTU ...");
+            //System.out.println("COLISION BOLA DE FUEGO TORTU ...");
             return true;
         }
         return false;

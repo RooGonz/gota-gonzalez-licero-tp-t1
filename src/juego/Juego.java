@@ -140,7 +140,7 @@ public class Juego extends InterfaceJuego {
 				}
 				if (gnomo.colisionConPersonaje(personaje)) {
 					gnomos[i] = null; // Pep salva Gnomo
-					System.out.println("peptortu ... ");
+					//System.out.println("pepGnomo... ");
 					gnomoSalvado++;
 				}
 			}
@@ -204,13 +204,13 @@ public class Juego extends InterfaceJuego {
 			if (personaje!= null && personaje.colisionaPorAbajo(entorno)) {
 				personaje = null;
 				MetodosParaJuego.mostrarGameOver(gnomoSalvado, this);
-				System.out.print("Pep muerto ");
+				//System.out.print("Pep muerto ");
 			}
 			//verifica si el pep rescato el objetivo de gnomos para finalizar el juego
 			if(personaje!= null && gnomoSalvado == 10) {
 				personaje = null;
 				MetodosParaJuego.mostrarYouWin(gnomoSalvado, this);
-				System.out.println("GANO ... ");
+				//System.out.println("GANO ... ");
 			}
 
 			// Verificar colisión con tortugas
@@ -218,7 +218,7 @@ public class Juego extends InterfaceJuego {
 				if (tortuga != null && personaje!=null && personaje.colisionConTortuga(tortuga)) {					
 					personaje = null; // Eliminar a Pep
 					MetodosParaJuego.mostrarGameOver(gnomoSalvado, this);
-					System.out.println("peptortu ... ");
+					//System.out.println("peptortu ... ");
 					break;
 				}
 			}				

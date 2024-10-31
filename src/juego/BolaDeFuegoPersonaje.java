@@ -41,12 +41,6 @@ public class BolaDeFuegoPersonaje {
 		}
 	}
 	
-//	public void mover() {
-//		this.x+=movimientoHorizontal*velocidad;
-//		this.y+=movimientoVertical*velocidad;
-//		
-//	}
-	
 	public void mover(Personaje p) {
 		if(direccion==true) {
             		this.x += this.velocidad; // Si el personaje mira hacia la derecha, el disparo se mueve hacia la derecha
@@ -63,7 +57,7 @@ public class BolaDeFuegoPersonaje {
             	double bordeIzquierdoIsla = isla.getX() - (isla.getAncho() / 2);
             
             		if (bordeDerechoPersonaje >= bordeIzquierdoIsla && bordeDerechoPersonaje <= bordeIzquierdoIsla ) {
-                		if ((this.y + (this.radio ) > isla.getY() - (isla.getAlto() / 2)) && (this.y - (this.radio) < isla.getY() + (isla.getAlto() / 2))) {
+                		if (this.y + (this.radio ) > (isla.getY() - (isla.getAlto() / 2)) && (this.y - (this.radio) < isla.getY() + (isla.getAlto() / 2))) {
                     			this.x = bordeIzquierdoIsla - (this.radio);
                     			return true;
                 		}
