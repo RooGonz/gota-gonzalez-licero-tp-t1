@@ -23,7 +23,6 @@ public class Personaje {
 		this.ancho = ancho;
 		this.alto = alto;
 		this.desplazamiento = desplazamiento;
-
 		this.direccionDer = direccionDer;
 		this.Izq = Herramientas.cargarImagen("imagenes/PepIzq.png");
 		this.Der = Herramientas.cargarImagen("imagenes/PepDer.png");
