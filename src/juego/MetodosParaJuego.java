@@ -56,12 +56,12 @@ public class MetodosParaJuego {
 				}
 				else if(indice==3) {
 					x=((e.ancho()-expansion)/(i+1)*j+expansion/2);
-					islas[indice]= new Islas(x+50,y,e.ancho()/8,30);
+					islas[indice]= new Islas(x+40,y,e.ancho()/8,30);
 					indice++;
 				}
 				else if(indice==5) {
 					x=((e.ancho()-expansion)/(i+1)*j+expansion/2);
-					islas[indice]= new Islas(x-50,y,e.ancho()/8,30);
+					islas[indice]= new Islas(x-40,y,e.ancho()/8,30);
 					indice++;
 				}
 				else {
