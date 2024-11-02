@@ -138,7 +138,8 @@ public class Juego extends InterfaceJuego {
 						break;
 					}
 				}
-				if (gnomo.colisionConPersonaje(personaje)) {
+				//gnomo colision con personaje 
+				if (gnomo.colisionConPersonaje(personaje) && (gnomo.getY()>entorno.alto()/2)) {
 					gnomos[i] = null; // Pep salva Gnomo
 					//System.out.println("pepGnomo... ");
 					gnomoSalvado++;

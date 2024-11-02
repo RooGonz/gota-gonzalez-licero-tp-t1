@@ -13,6 +13,9 @@ public class Personaje {
 	private double alto;
 	private double desplazamiento;	
 	private boolean direccionDer;
+	private boolean saltando;
+	private int alturaSalto;
+	private boolean estaApoyado;
 	private Image Izq;
 	private Image Der;
 
@@ -24,6 +27,9 @@ public class Personaje {
 		this.alto = alto;
 		this.desplazamiento = desplazamiento;
 		this.direccionDer = direccionDer;
+		this.saltando=false;
+		this.alturaSalto=0;
+		this.estaApoyado=false;
 		this.Izq = Herramientas.cargarImagen("imagenes/PepIzq.png");
 		this.Der = Herramientas.cargarImagen("imagenes/PepDer.png");
 
@@ -32,10 +38,10 @@ public class Personaje {
 	public void dibujarse(Entorno e) {
 		//e.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.yellow);
 		if (this.direccionDer == false){
-			e.dibujarImagen(Izq, this.x-5, this.y, 0, 0.18);
+			e.dibujarImagen(Izq, this.x-5, this.y, 0, 0.15);
 		}
 		else{
-			e.dibujarImagen(Der, this.x+5, this.y, 0, 0.18);
+			e.dibujarImagen(Der, this.x+5, this.y, 0, 0.15);
 		}
 	}
 
@@ -43,29 +49,35 @@ public class Personaje {
 		this.y -= this.desplazamiento; 
 	}
 	public void moverAbajo() {
-		this.y += this.desplazamiento; 
+		if(!estaApoyado){
+		    this.y += this.desplazamiento; }
 	}
 	public void moverDerecha() {
-	this.direccionDer = true;
-	this.x += this.desplazamiento; 
-
+		if (estaApoyado || saltando){
+	        this.direccionDer = true;
+	        this.x += this.desplazamiento; 
+		}
 	}
 	public void moverIzquierda() {
-		this.direccionDer = false;
-		this.x -= this.desplazamiento; 
-		
+		if(estaApoyado || saltando){
+		    this.direccionDer = false;
+			this.x -= this.desplazamiento;
+		}
 	}
 	
 	public void saltar() {
-		//int desplazo = 0;
-		
-		//while (desplazo < 10) {
-		//	desplazo ++;
-			this.y -= this.desplazamiento*2;
-		//	if(this.estaColisionandoPorArriba(null)) {
-		//		desplazo=0;
-		//	}
-		//}
+		if(estaApoyado ){
+			estaApoyado = false; // Ya no está apoyado en el suelo
+			saltando = true;
+		}
+		if(saltando){
+			this.y-= this.desplazamiento*3;
+			this.alturaSalto++;
+		}
+		if(this.alturaSalto>20){
+			saltando=false;
+			this.alturaSalto=0;
+		}
 	}
 	
 	public boolean colisionaPorDerecha(Entorno e) {
@@ -113,10 +125,12 @@ public class Personaje {
 			if(bordeInferiorPersonaje>=bordeSuperiorIsla && bordeInferiorPersonaje<=bordeSuperiorIsla +desplazamiento) {
 				if(this.x+(this.ancho/2) > isla.getX()-(isla.getAncho()/2)  &&  this.x-(this.ancho/2) < isla.getX()+(isla.getAncho()/2)) {
 					this.y=(int) bordeSuperiorIsla-(this.alto/2);
+					this.estaApoyado=true;
 					return true;
 				}
 			}			
 		}
+		this.estaApoyado=false;
 		return false;
 	}
 	public boolean estaColisionandoPorArriba(Islas[] islas) {
