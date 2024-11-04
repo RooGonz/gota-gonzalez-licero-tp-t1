@@ -2,12 +2,9 @@ package juego;
 
 import java.awt.Color;
 import java.awt.image.*;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
-
 import entorno.Entorno;
 import entorno.InterfaceJuego;
 
@@ -23,8 +20,8 @@ public class Juego extends InterfaceJuego {
 	private Personaje personaje;
 	private BolaDeFuegoPersonaje bolaDeFuego;
 
-	private int posYinferior;
-	private int posYsuperior;
+	private int posXinferior;
+	private int posXsuperior;
 
 	//variables de tiempo para los gnomos
 	private long lastGnomoTime;
@@ -54,8 +51,8 @@ public class Juego extends InterfaceJuego {
 		islas = MetodosParaJuego.crearIslas(entorno);
 
 		//posicion prohibida para tortuga
-		this.posYinferior=entorno.ancho()/2-100;
-		this.posYsuperior=entorno.ancho()/2+100;
+		this.posXinferior=entorno.ancho()/2-100;
+		this.posXsuperior=entorno.ancho()/2+100;
 
 		this.lastGnomoTime = System.currentTimeMillis(); // Inicializa el temporizador
 		this.contadorBordeInferior = 0;
@@ -95,11 +92,11 @@ public class Juego extends InterfaceJuego {
 		lastUpdateTime = currentTime;// Actualizar lastUpdateTime para la próxima tick
 		// ...
 
-		if(imagenFondo!=null) {
+		if(imagenFondo!=null) {//dibuja la imagen de fondo del juego
 			entorno.dibujarImagen(imagenFondo, entorno.ancho()-entorno.ancho()/2, entorno.alto()-(entorno.alto()/2), 0);
 		}
 
-		casa.dibujar(entorno);
+		casa.dibujar(entorno);//dibuja la casa de los gnomos
 
 		long tiempoDeJuego = System.currentTimeMillis();
 
@@ -108,7 +105,7 @@ public class Juego extends InterfaceJuego {
 			MetodosParaJuego.agregarGnomo(gnomos,entorno);
 			lastGnomoTime = tiempoDeJuego;
 		}
-
+		//dibuja los gnomos
 		for (int i = 0; i < gnomos.length; i++) {
 			Gnomo gnomo = gnomos[i];
 			if(gnomo != null) {
@@ -142,7 +139,7 @@ public class Juego extends InterfaceJuego {
 				if (gnomo.colisionConPersonaje(personaje) && (gnomo.getY()>entorno.alto()/2)) {
 					gnomos[i] = null; // Pep salva Gnomo
 					//System.out.println("pepGnomo... ");
-					gnomoSalvado++;
+					gnomoSalvado++;// incrementar contador
 				}
 			}
 		}
@@ -176,12 +173,12 @@ public class Juego extends InterfaceJuego {
 					if(tortuga.colisionBolaDeFuego(bolaDeFuego)) {
 						tortugas[i]=null;
 						bolaDeFuego=null;
-					}
+					}	
 				}
 			}
 			else {
 				//si una tortuga queda en null
-				MetodosParaJuego.agregarTortuga(tortugas,entorno,this.posYinferior,this.posYsuperior); //agrega otra tortuga
+				MetodosParaJuego.agregarTortuga(tortugas,entorno,this.posXinferior,this.posXsuperior); //dibuja otra tortuga
 			}
 		}
 		if (personaje != null){ 
@@ -201,35 +198,36 @@ public class Juego extends InterfaceJuego {
 			if (!personaje.estaColisionandoPorAbajo(islas) || personaje.estaColisionandoPorArriba(islas)) 
 				personaje.moverAbajo();
       
-			//verifica que el Pep cae al vacio y lo elimina
+			//verifica que Pep cae al vacio y lo elimina
 			if (personaje!= null && personaje.colisionaPorAbajo(entorno)) {
 				personaje = null;
-				MetodosParaJuego.mostrarGameOver(gnomoSalvado, this);
+				MetodosParaJuego.mostrarGameOver(gnomoSalvado, this);// gameover
 				//System.out.print("Pep muerto ");
 			}
 			//verifica si el pep rescato el objetivo de gnomos para finalizar el juego
 			if(personaje!= null && gnomoSalvado == 10) {
 				personaje = null;
-				MetodosParaJuego.mostrarYouWin(gnomoSalvado, this);
+				MetodosParaJuego.mostrarYouWin(gnomoSalvado, this);// youwin
 				//System.out.println("GANO ... ");
 			}
-
 			// Verificar colisión con tortugas
 			for (Tortugas tortuga : tortugas) {
 				if (tortuga != null && personaje!=null && personaje.colisionConTortuga(tortuga)) {					
 					personaje = null; // Eliminar a Pep
-					MetodosParaJuego.mostrarGameOver(gnomoSalvado, this);
+					MetodosParaJuego.mostrarGameOver(gnomoSalvado, this);// gameover
 					//System.out.println("peptortu ... ");
 					break;
 				}
 			}				
-
+			// se crea una bola de fuego
 			if(entorno.sePresiono(entorno.TECLA_ESPACIO) && bolaDeFuego==null) {
 				this.bolaDeFuego = new BolaDeFuegoPersonaje(personaje.getX(), personaje.getY(), true,personaje.getdireccionDerecha());
 			}
 			if(this.bolaDeFuego!=null) {
+				//dibuja una bola de fuego
 				bolaDeFuego.dibujar(entorno);
 				bolaDeFuego.mover(personaje);
+				//colision con entorno, islas o tortugas de la bola de fuego
 				if(bolaDeFuego.colisionaPorDerecha(entorno) || bolaDeFuego.colisionaPorIzquierda(entorno) ||
 						bolaDeFuego.estaColisionandoPorDerecha(islas) || bolaDeFuego.estaColisionandoPorIzquierda(islas)) {
 					bolaDeFuego=null;
@@ -238,19 +236,25 @@ public class Juego extends InterfaceJuego {
 		}
 
 		// Dibujar contadores en la parte superior
-		entorno.cambiarFont("Arial", 18, Color.MAGENTA);
+		entorno.cambiarFont("Arial", 18, Color.black);
 		entorno.escribirTexto("Gnomos perdidos: " + contadorBordeInferior, 20, 30);
 		entorno.escribirTexto("Gnomos eliminados x tortugas: " + contadorColisionTortugas, 20, 50);
 		entorno.escribirTexto("Gnomos salvados: " + gnomoSalvado, 20, 80);
-		entorno.escribirTexto("Tiempo de juego: " + (tiempoJuego / 1000) + "s", 20, 100);
-
+		
+		// Calcular minutos y segundos
+		long totalSegundos = tiempoJuego / 1000;
+		long minutos = totalSegundos / 60;
+		long segundos = totalSegundos % 60;
+	
+		// Mostrar el tiempo de juego en formato minutos:segundos
+		entorno.escribirTexto(String.format("Tiempo de juego: %02d:%02d", minutos, segundos), 20, 100);
 	}
 
 	@SuppressWarnings("unused")
 	public static void main(String[] args) {
 		Juego juego = new Juego();
 	}
-
+	//metodo para reiniciar el juego
 	public  void reiniciarJuego() {
 		// Reinicia el personaje
 		this.personaje = new Personaje(entorno.ancho() - (entorno.ancho() / 25), entorno.alto() / 2, 20, 60, 3, true);

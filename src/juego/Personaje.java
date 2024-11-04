@@ -13,7 +13,7 @@ public class Personaje {
 	private double alto;
 	private double desplazamiento;	
 	private boolean direccionDer;
-	private boolean saltando;
+    private boolean saltando;
 	private int alturaSalto;
 	private boolean estaApoyado;
 	private Image Izq;
@@ -34,9 +34,7 @@ public class Personaje {
 		this.Der = Herramientas.cargarImagen("imagenes/PepDer.png");
 
 	}
-	
 	public void dibujarse(Entorno e) {
-		//e.dibujarRectangulo(this.x, this.y, this.ancho, this.alto, 0, Color.yellow);
 		if (this.direccionDer == false){
 			e.dibujarImagen(Izq, this.x-5, this.y, 0, 0.15);
 		}
@@ -44,7 +42,6 @@ public class Personaje {
 			e.dibujarImagen(Der, this.x+5, this.y, 0, 0.15);
 		}
 	}
-
 	public void moverArriba() {
 		this.y -= this.desplazamiento; 
 	}
@@ -64,10 +61,8 @@ public class Personaje {
 			this.x -= this.desplazamiento;
 		}
 	}
-	
 	public void saltar() {
 		if(estaApoyado ){
-			estaApoyado = false; // Ya no está apoyado en el suelo
 			saltando = true;
 		}
 		if(saltando){
@@ -79,7 +74,6 @@ public class Personaje {
 			this.alturaSalto=0;
 		}
 	}
-	
 	public boolean colisionaPorDerecha(Entorno e) {
 		if(this.x + this.ancho/2 >= e.ancho()) {
 			return true;
@@ -104,7 +98,6 @@ public class Personaje {
 			return false;
 		}
 	}
-	
 	public boolean colisionaPorAbajo(Entorno e) {
 		if(this.y + this.alto/2 >= e.alto()) {
 			return true;
@@ -113,7 +106,6 @@ public class Personaje {
 			return false;
 		}
 	}
-	
 	public boolean estaColisionandoPorAbajo(Islas[] islas) {		
 		for(Islas isla : islas) {
 			if(isla==null) {
@@ -142,7 +134,7 @@ public class Personaje {
 			double bordeInferiorIsla = isla.getY() + (isla.getAlto() / 2);
 
 			if(bordeSuperiorPersonaje <= bordeInferiorIsla && bordeSuperiorPersonaje >= bordeInferiorIsla-10) {
-				if(this.x+(this.ancho/2) < isla.getX()+(isla.getAncho()/2)  &&  this.x-(this.ancho/2) > isla.getX()-(isla.getAncho()/2)) {
+				if(this.x+(this.ancho/2)-this.ancho < isla.getX()+(isla.getAncho()/2)  &&  this.x-(this.ancho/2)+this.ancho > isla.getX()-(isla.getAncho()/2)) {
 					this.y=bordeInferiorIsla+(this.alto/2);
 					return true;
 				}
@@ -150,8 +142,6 @@ public class Personaje {
 		}	
 		return false;
 	}
-
-	
 	public boolean estaColisionandoPorDerecha(Islas[] islas) {
 		for(Islas isla : islas) {
 			if(isla==null) {
@@ -169,7 +159,6 @@ public class Personaje {
 		}		
 		return false;
 	}
-	
 	public boolean estaColisionandoPorIzquierda(Islas[] islas) {
 		for(Islas isla : islas) {
 			if(isla==null) {
@@ -187,7 +176,6 @@ public class Personaje {
 		}		
 		return false;
 	}
-
     public boolean colisionConTortuga(Tortugas t){
        
         if (t == null){
@@ -210,7 +198,6 @@ public class Personaje {
         }
         return false;
     }
-
 	public boolean colisionConGnomo(Gnomo gnomo){
        
         if (gnomo == null){
@@ -233,20 +220,15 @@ public class Personaje {
         }
         return false;
     }
-
-	
 	public double getX() {
 		return x;
 	}
-
 	public double getY() {
 		return y;
 	}
-
 	public double getAncho() {
 		return ancho;
 	}
-
 	public double getAlto() {
 		return alto;
 	}

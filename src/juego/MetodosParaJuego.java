@@ -76,14 +76,13 @@ public class MetodosParaJuego {
 	public static void agregarGnomo(Gnomo[] gnomos,Entorno entorno) {
 		for (int i = 0; i < gnomos.length; i++) {
 			if (gnomos[i] == null) {
-				gnomos[i] = new Gnomo(entorno.ancho()/2, entorno.alto()/6-26, 15, 20, 1, 2);
 				gnomos[i] = new Gnomo(entorno.ancho()/2, entorno.alto()-(entorno.alto()-75), 15, 20, 1, 1);
 				break; // se sale para que solo agregue un gnomo por vez
 			}
 		}
 	}
 
-	public static void agregarTortuga(Tortugas[] tortugas, Entorno entorno, int posYinferior, int posYsuperior) {
+	public static void agregarTortuga(Tortugas[] tortugas, Entorno entorno, int posXinferior, int posXsuperior) {
 		int maxTortugas = (tortugas.length / 2) ; // Solo dibujar la mitad de las tortugas
 		int tortugasActivas = 0;
 
@@ -98,13 +97,14 @@ public class MetodosParaJuego {
 		if (tortugasActivas < maxTortugas) {
 			for (int i = 0; i < tortugas.length; i++) {
 				if (tortugas[i] == null) {
-					int diby = entorno.alto() - entorno.alto(); // Suponiendo que dibujas en la parte superior
+					int diby = entorno.alto() - entorno.alto(); // dibujar en parte superior
 					int dibx;
 
 					// Generar una posición x válida
 					do {
-						dibx = (int) (Math.random() * entorno.ancho());
-					} while (posicionOcupada(dibx, tortugas) || (dibx>=posYinferior && dibx<=posYsuperior) || !isFarEnough(dibx, tortugas));
+						dibx = (int) (Math.random() * entorno.ancho()-20);
+					} while (posicionOcupada(dibx, tortugas) || (dibx>=posXinferior && dibx<=posXsuperior) 
+					|| !estaLejos(dibx, tortugas) || dibx<=0);
 
 
 					// Crear y agregar la tortuga en la posición válida
@@ -124,7 +124,7 @@ public class MetodosParaJuego {
 		return false; // La posición está libre
 	}
 
-	private static boolean isFarEnough(int newX, Tortugas[] tortugas) {
+	private static boolean estaLejos(int newX, Tortugas[] tortugas) {
 		final int distanciaMinima = 100; // Distancia mínima deseada entre tortugas
 		for (Tortugas tortuga : tortugas) {
 			if (tortuga != null && Math.abs(tortuga.getX() - newX) < distanciaMinima) {

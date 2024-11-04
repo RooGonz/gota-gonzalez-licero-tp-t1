@@ -1,6 +1,5 @@
 package juego;
 
-import java.awt.Color;
 import java.awt.Image;
 import entorno.Herramientas;
 import entorno.Entorno;
@@ -12,7 +11,6 @@ public class Tortugas {
 	private double alto;
 	private double desplazamiento;
 	private int velocidad;
-	double escala;
 	private Image Izq;
 	private Image Der;
 
@@ -23,7 +21,6 @@ public class Tortugas {
 		this.alto = alto;
 		this.desplazamiento=despl;
 		this.velocidad = 1;
-		this.escala=1;
 		this.Izq= Herramientas.cargarImagen("imagenes/tortugaIzquierda.png");
 		this.Der= Herramientas.cargarImagen("imagenes/tortugaDerecha.png");
 	}
@@ -37,7 +34,6 @@ public class Tortugas {
 			entorno.dibujarImagen(Der, this.x, this.y, 0,0.32);
 		}
 	}
-	
 	public void caer() {
 		this.y++;
 	}
@@ -48,19 +44,15 @@ public class Tortugas {
 	public void moverDerecha() {
 		this.x += this.desplazamiento*velocidad; 
 	}
-	
 	public void moverIzquierda() {
 		this.x -= this.desplazamiento*velocidad; 
 	}
-	
 	public void cambiarMovimiento() {
 		this.desplazamiento*=-1;
 	}
-	
 	public boolean colisionaPorDerecha(Entorno e) {
 		return this.x + this.ancho/2 >= e.ancho();
 	}
-	
 	public boolean colisionaPorIzquierda(Entorno e) {
 		return this.x - this.ancho/2 <= 0;
 	}
@@ -81,7 +73,6 @@ public class Tortugas {
 		}
 		return false;
 	}
-
 	public boolean llegaAlBorde(Islas[] islas) {		
 		for(Islas isla : islas) {
 			if(isla==null) {
@@ -101,7 +92,6 @@ public class Tortugas {
 		}
 		return false;
 	}
-
 	public boolean bordeInferiorEntorno(Entorno e){
 		return this.y + this.alto/2 >= e.alto();
 	}
@@ -127,36 +117,27 @@ public class Tortugas {
         }
         return false;
     }
-
-
 	public double getX() {
 		return x;
 	}
-
 	public void setX(double x) {
 		this.x = x;
 	}
-
 	public double getY() {
 		return y;
 	}
-
 	public void setY(double y) {
 		this.y = y;
 	}
-
 	public double getAncho() {
 		return ancho;
 	}
-
 	public void setAncho(double ancho) {
 		this.ancho = ancho;
 	}
-
 	public double getAlto() {
 		return alto;
 	}
-
 	public void setAlto(double alto) {
 		this.alto = alto;
 	}
