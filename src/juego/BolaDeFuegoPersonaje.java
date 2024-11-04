@@ -9,7 +9,6 @@ public class BolaDeFuegoPersonaje {
 	private double x;
 	private double y;
 	private double radio;
-	private double escala;
 	private double velocidad;
 	private double alto;
 	private boolean activo;
@@ -23,14 +22,11 @@ public class BolaDeFuegoPersonaje {
 		this.velocidad = 2; 
 		this.radio = 10;
 		this.alto = 20;
-		this.escala = 0;
         this.activo = activo;
         this.direccion=direccion;
 		this.Izq = Herramientas.cargarImagen("imagenes/bolaFuegoIzq.png");
 		this.Der = Herramientas.cargarImagen("imagenes/bolaFuegoDer.png");
 	}
-	
-
 	public void dibujar(Entorno entorno) {
 		entorno.dibujarCirculo(this.x, this.y, this.radio*2, Color.red);
 		if (direccion){
@@ -40,14 +36,13 @@ public class BolaDeFuegoPersonaje {
 			entorno.dibujarImagen(Izq, this.x+6, this.y, 0, 0.04);
 		}
 	}
-	
 	public void mover(Personaje p) {
 		if(direccion==true) {
             		this.x += this.velocidad; // Si el personaje mira hacia la derecha, el disparo se mueve hacia la derecha
         	} else {
             		this.x -= this.velocidad; // Si el personaje mira hacia la izquierda, el disparo se mueve hacia la izquierda
         	}
-    	}
+    }
 	public boolean estaColisionandoPorDerecha(Islas[] islas) {
 		for(Islas isla : islas) {
 			if(isla==null) {
@@ -65,7 +60,6 @@ public class BolaDeFuegoPersonaje {
 		}		
 		return false;
 	}
-	
 	public boolean estaColisionandoPorIzquierda(Islas[] islas) {
 		for(Islas isla : islas) {
 			if(isla==null) {
@@ -86,30 +80,24 @@ public class BolaDeFuegoPersonaje {
 	public boolean colisionaPorDerecha(Entorno e) {
 		return this.x + this.radio/2 >= e.ancho();
 	}
-	
 	public boolean colisionaPorIzquierda(Entorno e) {
 		return this.x - this.radio/2 <= 0;
 	}
 	public double getX() {
 		return x;
 	}
-
 	public void setX(double x) {
 		this.x = x;
 	}
-
 	public double getY() {
 		return y;
 	}
-
 	public void setY(double y) {
 		this.y = y;
 	}
-
 	public double getRadio() {
 		return radio;
 	}
-
 	public void setRadio(double radio) {
 		this.radio = radio;
 	}
